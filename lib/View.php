@@ -13,6 +13,18 @@ class View
 	* @var string
 	*/
 	private $st_contents;
+
+		/**
+	* Armazena o conteúdo HTML
+	* @var string
+	*/
+	private $st_header;
+
+		/**
+	* Armazena o conteúdo HTML
+	* @var string
+	*/
+	private $st_footer;
 	
 	/**
 	* Armazena o nome do arquivo de visualização
@@ -28,6 +40,18 @@ class View
 	private $v_params;
 	
 	/**
+	* 
+	* @var string
+	*/
+	private $view_header;
+
+	/**
+	* 
+	* @var string
+	*/
+	private $view_footer;
+	
+	/**
 	* É possivel efetuar a parametrização do objeto ao instanciar o mesmo,
 	* $st_view é o nome do arquivo de visualização a ser usado e 
 	* $v_params são os dados que devem ser utilizados pela camada de visualização
@@ -35,11 +59,13 @@ class View
 	* @param string $st_view
 	* @param Array $v_params
 	*/
-	function __construct($st_view = null, $v_params = null) 
+	function __construct($st_view = null, $v_params = null, $view_header="views/header.phtml", $view_footer="views/footer.phtml") 
 	{
 		if($st_view != null)
 			$this->setView($st_view);
 		$this->v_params = $v_params;
+		$this->view_header = $view_header;
+		$this->view_footer = $view_footer;
 	}	
 	
 	/**
@@ -97,6 +123,36 @@ class View
 		ob_end_clean();
 		return $this->st_contents;	
 	}
+
+	/**
+	* Retorna uma string contendo o header 
+	* do conteudo do arquivo de visualização
+	* 
+	* @return string
+	*/
+	public function getHeader()
+	{
+		ob_start();
+		require_once $this->view_header;
+		$this->st_header = ob_get_contents();
+		ob_end_clean();
+		return $this->st_header;	
+	}
+
+	/**
+	* Retorna uma string contendo o footer 
+	* do conteudo do arquivo de visualização
+	* 
+	* @return string
+	*/
+	public function getFooter()
+	{
+		ob_start();
+		require_once $this->view_footer;
+		$this->st_footer = ob_get_contents();
+		ob_end_clean();
+		return $this->st_footer;	
+	}
 	
 	/**
 	* Imprime o arquivo de visualização 
@@ -104,6 +160,13 @@ class View
 	public function showContents()
 	{
 		echo $this->getContents();
+		exit;
+	}
+
+	public function showPage(){
+		echo $this->getHeader(); 
+		echo $this->getContents();
+		echo $this->getFooter();
 		exit;
 	}
 }
