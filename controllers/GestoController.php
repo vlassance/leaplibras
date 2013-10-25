@@ -16,6 +16,8 @@ require_once 'models/GestoModel.php';
  */
 class GestoController
 {
+
+
 	/**
 	* Efetua a manipulação dos modelos necessários
 	* para a aprensentação da lista de Gestos
@@ -29,7 +31,7 @@ class GestoController
 		
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de Gestos
-		$o_view = new View('views/listarGesto.phtml');
+		$o_view = new View('trainer/listarGesto.phtml');
 		
 		//Passando os dados do Gesto para a View
 		$o_view->setParams(array('v_gestos' => $v_gestos));
@@ -64,7 +66,7 @@ class GestoController
 				Application::redirect('?controle=Gesto&acao=listarGesto');
 		}
 			
-		$o_view = new View('views/manterGesto.phtml');
+		$o_view = new View('trainer/manterGesto.phtml');
 		$o_view->setParams(array('o_gesto' => $o_gesto));
 		$o_view->showContents();
 	}
