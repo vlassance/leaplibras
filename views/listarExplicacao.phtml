@@ -1,0 +1,20 @@
+<!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Explicação do Jogo</h1>
+        <hr>
+        <p>O aplicativo será criado na forma de um jogo, com níveis de dificuldade diferentes e definição de pontuação (score) com o intuito de motivar o aprendizado. O usuário deverá, em cada nível de dificuldade, reproduzir um certo número de palavras em LIBRAS. Referiremos doravante o usuário como “jogador”.</p>
+        <p>Tendo em vista o desevolvimento de uma aplicação com fins educativos, decidimos dividir o jogo em três níveis de dificuldade, de forma a tornar o aprendizado gradual e intuitivo. É também possível salvar o jogo em um estado no início dos níveis intermediário e avançado. Assim, o jogador pode retomar o jogo de onde parou na última vez em que jogou. O jogo é representado esquematicamente através do diagrama da figura abaixo:</p>
+        <div class="row-fluid">
+          <div class="span12">
+            <div class="thumbnail">
+              <img src="template/images/esquemaJogo.png">
+              <p class="text-center">Figura 1: Esquema do jogo de Leap-LIBRAS</p>
+            </div>
+          </div>
+        </div><br>
+        <p>Em um primeiro momento, no chamado nível básico, será apresentado ao jogador, para cada palavra em LIBRAS a ser aprendida, o nome do gesto (em língua portuguesa escrita) e um vídeo elucidativo o qual o jogador deverá reproduzir. O gesto reproduzido é capturado através do dispositivo LeapMotion e, em seguida, após o devido tratamento, um objeto JSON correspondente ao gesto é gerado. Essa é a forma como a aplicação modela a estrutura de dados que abstrai o gesto em LIBRAS. Em seguida, o objeto é processado e comparado ao objeto-gabarito, existente na base de dados da aplicação. Se o resultado da comparação tiver uma compatibilidade (matching) de propriedades acima de 70%, então, consideramos que o gesto foi reproduzido corretamente.</p>
+        <p>Esse processo é repetido para uma sequência de 10 gestos. O objetivo da primeira fase é apresentar os gestos ao jogador. Se houver acerto de 100% dos gestos, o jogador é conduzido ao nível intermediário.</p>
+        <p>Já na segunda fase, ou nível intermediário, o objetivo é fazer o jogador assimilar os gestos apresentados no nível precedente. Assim, o jogador irá reproduzir os mesmos gestos da fase anterior, os quais são apresentados na mesma sequência. Entretanto, nessa fase, somente o nome do gesto fica disponível ao jogador (sem vídeo), de forma que este deverá utilizar de sua memória para reproduzir o gesto correspondente. Caso consiga mais de 70% de acertos, ele conseguirá passar para a terceira e última fase.</p>
+        <p>Finalmente, o terceiro nível, ou nível avançado, consiste em um teste para verificar se os gestos foram realmente aprendidos pelo jogador. As mesmas palavras são mostradas ao jogador, mas desta vez, em uma ordem embaralhada. A partir do número de gestos reproduzidos corretamente, define-se um score que poderá ser publicado em redes sociais para atrair novos usuários e assim, difundir a linguagem brasileira de sinais.</p>
+
+      </div>
