@@ -31,7 +31,7 @@ class ContatoController
 		
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de contatos
-		$o_view = new View('views/exemplo.phtml');
+		$o_view = new View('views/listarTermo.phtml');
 		
 		//Passando os dados do contato para a View
 		$o_view->setParams(array('v_contatos' => $v_contatos));

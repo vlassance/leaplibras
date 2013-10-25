@@ -10,7 +10,7 @@
 * Controlador que deverá ser chamado quando não for
 * especificado nenhum outro
 */
-class IndexController
+class EquipeController
 {
 	/**
 	* Ação que deverá ser executada quando 
@@ -18,10 +18,14 @@ class IndexController
 	* arquivo index.html ou index.php é executado quando nenhum é
 	* referenciado
 	*/
-	public function indexAction()
+	public function listarEquipeAction()
 	{
-		//redirecionando para a pagina de lista de contatos
-		header('Location: ?controle=Home&acao=listarHome');
+		//definindo qual o arquivo HTML que será usado para
+		//mostrar a lista de contatos
+		$o_view = new View('views/listarEquipe.phtml');
+		
+		//Imprimindo código HTML
+		$o_view->showPage();
 	}
 }
 ?>
