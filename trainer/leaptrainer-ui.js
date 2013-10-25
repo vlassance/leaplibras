@@ -86,6 +86,7 @@ jQuery(document).ready(function ($) {
 		exportingSampleText = $('#exporting-gesture-sample-text'),
 		exportText 			= $('#export-text'),
 		retrainButton 		= $('#retrain-gesture'),
+        saveButton          = $('#save-gesture'),
 		closeOverlayButton 	= $('#close-overlay'),
 		outputText			= $('#output-text'),
 		optionsButton		= $('#options-button'),
@@ -346,7 +347,7 @@ jQuery(document).ready(function ($) {
 	    exportingName.html(gestureName);
 	    
 	    var json = trainer.toJSON(gestureName); // The JSON is extracted from the controller
-	    
+        	    	    
 	    exportingSampleText.html((json.length > 60 ? json.substring(0, 60) : json) + '...');
 
 	    exportText.html(json);
@@ -381,7 +382,9 @@ jQuery(document).ready(function ($) {
     /*
      * When the retrain button is clicked the overlay closes and the leaptrainer retrain() function is called for the selected gesture
      */
-    retrainButton.click(function() { closeExportOverlay(); trainer.retrain(exportingName.html()); });
+	retrainButton.click(function () { closeExportOverlay(); trainer.retrain(exportingName.html()); });
+
+	saveButton.click(function () {alert('salvando...')});
     
     closeOverlayButton.click(closeExportOverlay); // Clicking on the close button closes the overlay
 
