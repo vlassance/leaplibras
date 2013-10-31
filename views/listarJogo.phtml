@@ -1,0 +1,54 @@
+<!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Nível <?php echo '1'?></h1>
+        <h2>Questão: Faço o gesto <?php echo 'X'?></h2>
+        
+        <hr>
+
+        
+          <div class="row-fluid">
+            <div class="span4 text-left">
+              
+              <!-- Button to trigger modal -->
+              <a href="#modalVideo" role="button" class="btn btn-primary btn-large" data-toggle="modal">Ver vídeo <i class="icon-facetime-video icon-white"></i></a>
+
+              <?php if(true){?>
+              <!-- Modal -->
+              <div id="modalVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
+                <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                  <h3 id="modalVideoLabel">Aprenda o gesto <?php echo 'X'?> com o vídeo</h3>
+                </div>
+                <div class="modal-body">
+                  <iframe width="520" height="315" src="//www.youtube.com/embed/3iUZju5h5gw" frameborder="0" allowfullscreen></iframe>
+                </div>
+                <div class="modal-footer">
+                  <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
+                </div>
+              </div>
+            </div>
+            <?php } ?>
+
+            <div class="span4 text-center">
+              <p class="btn-info btn-large">Pontuação: <?php echo '10%' ?></p>
+            </div>
+
+            <div class="span4 text-right">
+              <a href="#" class="btn btn-primary btn-large">Próximo gesto <i class="icon-forward icon-white"></i></a>
+            </div>
+
+          </div>
+          
+          <hr>
+
+          <div id="main">
+          
+            <ul id="existing-gestures"></ul>
+            <div id="output-text"></div>
+            <div id="render-area"> <CANVAS></div>
+
+          </div>
+
+      </div>
+
+        

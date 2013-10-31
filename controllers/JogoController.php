@@ -10,7 +10,7 @@
 * Controlador que deverá ser chamado quando não for
 * especificado nenhum outro
 */
-class ExplicacaoController
+class JogoController
 {
 	/**
 	* Ação que deverá ser executada quando 
@@ -18,11 +18,11 @@ class ExplicacaoController
 	* arquivo index.html ou index.php é executado quando nenhum é
 	* referenciado
 	*/
-	public function listarExplicacaoAction()
+	public function listarJogoAction()
 	{
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de contatos
-		$o_view = new View('views/listarExplicacao.phtml');
+		$o_view = new View('views/listarJogo.phtml');
 		
 		//Imprimindo código HTML
 		$o_view->showPage();
