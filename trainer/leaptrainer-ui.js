@@ -86,7 +86,7 @@ jQuery(document).ready(function ($) {
 		exportingSampleText = $('#exporting-gesture-sample-text'),
 		exportText 			= $('#export-text'),
 		retrainButton 		= $('#retrain-gesture'),
-        saveButton          = $('#save-gesture'),
+        deleteButton        = $('#delete-gesture'),
 		closeOverlayButton 	= $('#close-overlay'),
 		outputText			= $('#output-text'),
 		optionsButton		= $('#options-button'),
@@ -382,9 +382,27 @@ jQuery(document).ready(function ($) {
     /*
      * When the retrain button is clicked the overlay closes and the leaptrainer retrain() function is called for the selected gesture
      */
-	retrainButton.click(function () { closeExportOverlay(); trainer.retrain(exportingName.html()); });
+	retrainButton.click(function () {
+	    closeExportOverlay();
+	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+	    trainer.retrain(exportingName.html());
+	});
 
-	saveButton.click(function () {alert('salvando...')});
+
+    /*
+     * Deletes a given gesture trained
+     */
+	deleteButton.click(function () {
+
+	    
+	    $('[name=acao]').val("apagarGesto");
+
+	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+
+	    $('#form-gesto').submit();
+
+	    
+	});
     
     closeOverlayButton.click(closeExportOverlay); // Clicking on the close button closes the overlay
 
@@ -714,24 +732,32 @@ jQuery(document).ready(function ($) {
 	 * When a training gesture is successfully saved, we render the gesture, update the progress bar on the gesture list entry, and 
 	 * update the output text to display how many more gestures need to be performed.
 	 */
-	trainer.on('training-gesture-saved', function(gestureName, trainingSet) {
+	trainer.on('training-gesture-saved', function (gestureName, trainingSet) {
+
+	    
 
 		var trainingGestures = trainer.trainingGestures;
 
 		renderGesture();
 		
+
+
 		var remaining = (trainingGestures - trainingSet.length);
 
 		setGestureScale(gestureName, 100 - ((100/trainingGestures) * remaining), yellow, yellow);
 
 		setOutputText('Perform the ' + gestureName + ' gesture ' + (remaining == 1 ? ' once more' : remaining + ' more times'));
+
+
 	});
 	
 	/*
 	 * When training completes we render the final training gesture, update the output text and gesture label, and set the gesture scale to 
 	 * 100% and green.
 	 */
-	trainer.on('training-complete', function(gestureName, trainingSet) {
+	trainer.on('training-complete', function (gestureName, trainingSet) {
+
+	    
 
 		training = false;		
 		
@@ -742,6 +768,13 @@ jQuery(document).ready(function ($) {
 		setGestureLabel(gestureName, 'Learned');
 		
 		setGestureScale(gestureName, 100, green, green);
+
+        
+		$('[name=st_nome]').val(gestureName);
+		$('[name=st_json]').val(trainer.toJSON(gestureName));
+		
+		$('#form-gesto').submit();
+
 	});
 
 	/*
@@ -1150,8 +1183,19 @@ jQuery(document).ready(function ($) {
 	 * ------------------------------------------------------------------------------------------
 	 */
 
-	/*
-	 * And finally we connect to the device
-	 */
-	controller.connect();
+
+        /*
+     * And finally we connect to the device
+     */
+	    controller.connect();
+
+
+	    $('input[name=gestoDB]').each(function () {
+	        //alert($(this).val());
+	        trainer.fromJSON($(this).val());
+	        
+	    });
+
+	
 });
+

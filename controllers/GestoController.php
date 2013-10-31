@@ -31,7 +31,8 @@ class GestoController
 		
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de Gestos
-		$o_view = new View('trainer/listarGesto.phtml');
+		//$o_view = new View('trainer/listarGesto.phtml');
+		$o_view = new View('trainer/index.phtml');
 		
 		//Passando os dados do Gesto para a View
 		$o_view->setParams(array('v_gestos' => $v_gestos));
@@ -59,7 +60,7 @@ class GestoController
 		if(count($_POST) > 0)
 		{
 			$o_gesto->setNome(DataFilter::cleanString($_POST['st_nome']));
-			$o_gesto->setJson(DataFilter::cleanString($_POST['st_json']));
+			$o_gesto->setJson($_POST['st_json']);
 			
 			//salvando dados e redirecionando para a lista de Gestos
 			if($o_gesto->save() > 0)
@@ -76,11 +77,13 @@ class GestoController
 	*/
 	public function apagarGestoAction()
 	{
-		if( DataValidator::isNumeric($_GET['in_ges']) )
+
+
+		if( DataValidator::isNumeric($_POST['in_ges']) )
 		{
 			//apagando o Gesto
 			$o_Gesto = new GestoModel();
-			$o_Gesto->loadById($_GET['in_ges']);
+			$o_Gesto->loadById($_POST['in_ges']);
 			$o_Gesto->delete();
 			
 			Application::redirect('?controle=Gesto&acao=listarGesto');
