@@ -20,7 +20,19 @@ $o_nivel = $v_params['o_nivel'];
 					Nome
 				</th>
 				<th>
-					IdAnterior
+					Id_anterior
+				</th>
+				<th>
+					Id_proximo
+				</th>
+				<th>
+					Level
+				</th>
+				<th>
+					Aleatório?
+				</th>
+				<th>
+					Total Questões
 				</th>
 				<th colspan="2">
 					A&ccedil;&otilde;es
@@ -32,14 +44,29 @@ $o_nivel = $v_params['o_nivel'];
 				</td>
 				<td>
 					<input type='text' name='in_id_anterior' value='<?php echo $o_nivel->getIdAnterior()?>'>
-				</td>				
+				</td>
+				<td>
+					<input type='text' name='in_id_proximo' value='<?php echo $o_nivel->getIdProximo()?>'>
+				</td>
+				<td>
+					<input type='text' name='st_level' value='<?php echo $o_nivel->getLevel()?>'>
+				</td>		
+				<td>
+					<select name='bo_aleatorio'>
+					  <option value="false" <?php if (!$o_nivel->getAleatorio()) echo "selected" ?>>Não</option>
+					  <option value="true" <?php if ($o_nivel->getAleatorio()) echo "selected" ?>>Sim</option>
+					</select>
+				</td>
+				<td>
+					<input type='text' name='in_total_questoes' value='<?php echo $o_nivel->getTotalQuestoes()?>'>
+				</td>		
 				<td align="center">
 					<a href='?controle=Nivel&acao=listarNivel' class='bt_red'>Cancelar</a>
 				</td>
 				<td align="center">
 					<input type='hidden' name='controle' value='Nivel'>
 					<input type='hidden' name='acao' value='manterNivel'>
-					<input type='hidden' name='in_con' value='<?php echo $o_nivel->getId()?>'>
+					<input type='hidden' name='in_id' value='<?php echo $o_nivel->getId()?>'>
 					<button type='submit' class='bt_green'>Salvar</button>
 				</td>
 			</tr>			

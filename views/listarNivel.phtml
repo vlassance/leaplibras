@@ -30,6 +30,12 @@ $v_niveis = $v_params['v_niveis'];
 				<th>
 					Level
 				</th>
+				<th>
+					Aleatório?
+				</th>
+				<th>
+					Total Questões
+				</th>
 				<th colspan="2">
 					A&ccedil;&otilde;es
 				</th>
@@ -54,12 +60,18 @@ $v_niveis = $v_params['v_niveis'];
 					<td>
 						<?php echo $o_nivel->getLevel()?>
 					</td>
+					<td>
+						<?php echo $o_nivel->getAleatorio()?"Sim":"Não" ?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getTotalQuestoes()?>
+					</td>
 			
 					<td align="center">
-						<a href='?controle=Nivel&acao=manterNivel&in_ges=<?php echo $o_nivel->getId()?>' class='bt_blue'>Editar</a>
+						<a href='?controle=Nivel&acao=manterNivel&in_id=<?php echo $o_nivel->getId()?>' class='bt_blue'>Editar</a>
 					</td>
 					<td align="center">
-						<a href='?controle=Nivel&acao=apagarNivel&in_ges=<?php echo $o_nivel->getId()?>' class='bt_red'>Apagar</a>
+						<a href='?controle=Nivel&acao=apagarNivel&in_id=<?php echo $o_nivel->getId()?>' class='bt_red'>Apagar</a>
 					</td>
 				</tr>
 				<?php

@@ -37,11 +37,11 @@ class NivelController
 		$o_nivel = new NivelModel();
 		
 		//verificando se o id do Nivel foi passado
-		if( isset($_REQUEST['in_niv']) )
+		if( isset($_REQUEST['in_id']) )
 			//verificando se o id passado é valido
-			if( DataValidator::isNumeric($_REQUEST['in_niv']) )
+			if( DataValidator::isNumeric($_REQUEST['in_id']) )
 				//buscando dados do Nivel
-				$o_nivel->loadById($_REQUEST['in_niv']);
+				$o_nivel->loadById($_REQUEST['in_id']);
 			
 		if(count($_POST) > 0)
 		{
@@ -49,7 +49,7 @@ class NivelController
 			$o_nivel->setIdAnterior(DataFilter::cleanString($_POST['in_id_anterior']));
 			$o_nivel->setIdProximo(DataFilter::cleanString($_POST['in_id_proximo']));
 			$o_nivel->setLevel(DataFilter::cleanString($_POST['st_level']));
-			$o_nivel->setAleatorio(DataFilter::cleanString($_POST['bo_aleatorio']));
+			$o_nivel->setAleatorio(DataFilter::cleanString($_POST['bo_aleatorio'])=="true");
 			$o_nivel->setTotalQuestoes(DataFilter::cleanString($_POST['in_total_questoes']));
 			
 			//salvando dados e redirecionando para a lista de Niveis
@@ -67,11 +67,11 @@ class NivelController
 	*/
 	public function apagarNivelAction()
 	{
-		if( DataValidator::isNumeric($_GET['in_niv']) )
+		if( DataValidator::isNumeric($_GET['in_id']) )
 		{
 			//apagando o Nivel
 			$o_Nivel = new NivelModel();
-			$o_Nivel->loadById($_GET['in_niv']);
+			$o_Nivel->loadById($_GET['in_id']);
 			$o_Nivel->delete();
 			
 			Application::redirect('?controle=Nivel&acao=listarNivel');

@@ -166,7 +166,13 @@ class NivelModel extends PersistModelAbstract
 	{
 		$in_aleatorio = ($this->bo_aleatorio)? 1 : 0;
 		
-		if(is_null($this->in_id))
+		$id_ant_sql = $id_prox_sql = "NULL";
+		if (isset($this->in_id_anterior) && $this->in_id_anterior != "")
+			$id_ant_sql = $this->in_id_anterior;
+		if (isset($this->in_id_proximo) && $this->in_id_proximo != "")
+			$id_prox_sql = $this->in_id_proximo;
+		
+		if(is_null($this->in_id)) {
 			$st_query = "INSERT INTO tbl_nivel
 						(
 							con_st_nome,
@@ -179,27 +185,27 @@ class NivelModel extends PersistModelAbstract
 						VALUES
 						(
 							'$this->st_nome',
-							$this->in_id_anterior,
-							$this->in_id_proximo,
+							$id_ant_sql,
+							$id_prox_sql,
 							'$this->st_level',
 							$in_aleatorio,
-							$this->in_total_questoes,
+							$this->in_total_questoes
 						);";
-		else
+		} else {
 			$st_query = "UPDATE
 							tbl_nivel
 						SET
 							con_st_nome = '$this->st_nome',
-							con_in_id_anterior = $this->in_id_anterior,
-							con_in_id_proximo = $this->in_id_proximo,
+							con_in_id_anterior = $id_ant_sql,
+							con_in_id_proximo = $id_prox_sql,
 							con_st_level = '$this->st_level',
 							con_in_aleatorio = $in_aleatorio,
 							con_in_total_questoes = $this->in_total_questoes
 						WHERE
 							con_in_id = $this->in_id";
+		}
 		try
-		{
-			
+		{	
 			if($this->o_db->exec($st_query) > 0)
 				if(is_null($this->in_id))
 				{
