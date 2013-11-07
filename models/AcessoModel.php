@@ -1,17 +1,30 @@
 <?php
 
-class NivelModel extends PersistModelAbstract
+class AcessoModel extends PersistModelAbstract
 {
 	private $in_id;
 	private $st_nome;
-	private $st_email;
+	private $st_descricao;
+	private $bo_admin_acessos;
+	private $bo_admin_gestos;
 	
 	function __construct()
 	{
 		parent::__construct();
-		$this->createTableNivel();
+		$this->createTableAcesso();
 	}
 	
+	private function setParams($obj)
+	{
+		$bo_admin_acessos = ($obj->con_in_admin_acessos == 1)? true : false;
+		$bo_admin_gestos = ($obj->con_in_admin_gestos == 1)? true : false;
+		
+		$this->setId($obj->con_in_id);
+		$this->setNome($obj->con_st_nome);
+		$this->setDescricao($obj->con_st_descricao);
+		$this->setAdminAcessos($bo_admin_acessos);
+		$this->setAdminGestos($bo_admin_gestos);
+	}
 	
 	/**
 	 * Setters e Getters
@@ -39,68 +52,86 @@ class NivelModel extends PersistModelAbstract
 		return $this->st_nome;
 	}
 	
-	public function setEmail( $st_email )
+	public function setDescricao( $st_descricao )
 	{
-		$this->st_email = $st_email;
+		$this->st_descricao = $st_descricao;
 		return $this;
 	}
 	
-	public function getEmail()
+	public function getDescricao()
 	{
-		return $this->st_email;
+		return $this->st_descricao;
+	}
+	
+	public function setAdminAcessos( $bo_admin_acessos )
+	{
+		$this->bo_admin_acessos = $bo_admin_acessos;
+		return $this;
+	}
+	
+	public function getAdminAcessos()
+	{
+		return $this->bo_admin_acessos;
+	}
+	
+	public function setAdminGestos( $bo_admin_gestos )
+	{
+		$this->bo_admin_gestos = $bo_admin_gestos;
+		return $this;
+	}
+	
+	public function getAdminGestos()
+	{
+		return $this->bo_admin_gestos;
 	}
 	
 	/**
-	* Retorna um array contendo os niveis
+	* Retorna um array contendo os acessos
 	* @param string $st_nome
 	* @return Array
 	*/
 	public function _list( $st_nome = null )
 	{
 		if(!is_null($st_nome))
-			$st_query = "SELECT * FROM tbl_nivel WHERE con_st_nome LIKE '%$st_nome%';";
+			$st_query = "SELECT * FROM tbl_acesso WHERE con_st_nome LIKE '%$st_nome%';";
 		else
-			$st_query = 'SELECT * FROM tbl_nivel;';	
+			$st_query = 'SELECT * FROM tbl_acesso;';	
 		
-		$v_niveis = array();
+		$v_acessos = array();
 		try
 		{
 			$o_data = $this->o_db->query($st_query);
 			while($o_ret = $o_data->fetchObject())
 			{
-				$o_nivel = new NivelModel();
-				$o_nivel->setId($o_ret->con_in_id);
-				$o_nivel->setNome($o_ret->con_st_nome);
-				$o_nivel->setEmail($o_ret->con_st_email);
-				array_push($v_niveis, $o_nivel);
+				$o_acesso = new AcessoModel();
+				$o_acesso->setParams($o_ret);
+				array_push($v_acessos, $o_acesso);
 			}
 		}
 		catch(PDOException $e)
 		{}				
-		return $v_niveis;
+		return $v_acessos;
 	}
 	
 	/**
-	* Retorna os dados de um nivel referente
+	* Retorna os dados de um acesso referente
 	* a um determinado Id
 	* @param integer $in_id
-	* @return NivelModel
+	* @return AcessoModel
 	*/
 	public function loadById( $in_id )
 	{
-		$v_niveis = array();
-		$st_query = "SELECT * FROM tbl_nivel WHERE con_in_id = $in_id;";
+		$v_acessos = array();
+		$st_query = "SELECT * FROM tbl_acesso WHERE con_in_id = $in_id;";
 		$o_data = $this->o_db->query($st_query);
 		$o_ret = $o_data->fetchObject();
-		$this->setId($o_ret->con_in_id);
-		$this->setNome($o_ret->con_st_nome);
-		$this->setEmail($o_ret->con_st_email);		
+		$this->setParams($o_ret);		
 		return $this;
 	}
 	
 	/**
 	* Salva dados contidos na instancia da classe
-	* na tabela de nivel. Se o ID for passado,
+	* na tabela de acesso. Se o ID for passado,
 	* um UPDATE será executado, caso contrário, um
 	* INSERT será executado
 	* @throws PDOException
@@ -108,28 +139,37 @@ class NivelModel extends PersistModelAbstract
 	*/
 	public function save()
 	{
-		if(is_null($this->in_id))
-			$st_query = "INSERT INTO tbl_nivel
+		$in_admin_acessos = ($this->bo_admin_acessos)? 1 : 0;
+		$in_admin_gestos = ($this->bo_admin_gestos)? 1 : 0;
+		
+		if(is_null($this->in_id)) {
+			$st_query = "INSERT INTO tbl_acesso
 						(
 							con_st_nome,
-							con_st_email
+							con_st_descricao,
+							con_in_admin_acessos,
+							con_in_admin_gestos
 						)
 						VALUES
 						(
 							'$this->st_nome',
-							'$this->st_email'
+							'$this->st_descricao',
+							$in_admin_acessos,
+							$in_admin_gestos
 						);";
-		else
+		} else {
 			$st_query = "UPDATE
-							tbl_nivel
+							tbl_acesso
 						SET
 							con_st_nome = '$this->st_nome',
-							con_st_email = '$this->st_email'
+							con_st_descricao = '$this->st_descricao',
+							con_in_admin_acessos = $in_admin_acessos,
+							con_in_admin_gestos = $in_admin_gestos
 						WHERE
 							con_in_id = $this->in_id";
+		}
 		try
-		{
-			
+		{	
 			if($this->o_db->exec($st_query) > 0)
 				if(is_null($this->in_id))
 				{
@@ -152,21 +192,20 @@ class NivelModel extends PersistModelAbstract
 		}
 		catch (PDOException $e)
 		{
-			throw $e;
 		}
 		return false;				
 	}
 
 	/**
 	* Deleta os dados persistidos na tabela de
-	* nivel usando como referencia, o id da classe.
+	* acesso usando como referencia, o id da classe.
 	*/
 	public function delete()
 	{
 		if(!is_null($this->in_id))
 		{
 			$st_query = "DELETE FROM
-							tbl_nivel
+							tbl_acesso
 						WHERE con_in_id = $this->in_id";
 			if($this->o_db->exec($st_query) > 0)
 				return true;
@@ -175,11 +214,11 @@ class NivelModel extends PersistModelAbstract
 	}
 	
 	/**
-	* Cria tabela para armazernar os dados de nivel, caso
+	* Cria tabela para armazernar os dados de acesso, caso
 	* ela ainda não exista.
 	* @throws PDOException
 	*/
-	private function createTableNivel()
+	private function createTableAcesso()
 	{
 		/*
 		* No caso do Sqlite, o AUTO_INCREMENT é automático na chave primaria da tabela
@@ -190,11 +229,13 @@ class NivelModel extends PersistModelAbstract
 		else
 			$st_auto_increment = 'AUTO_INCREMENT';
 		
-		$st_query = "CREATE TABLE IF NOT EXISTS tbl_nivel
+		$st_query = "CREATE TABLE IF NOT EXISTS tbl_acesso
 					(
 						con_in_id INTEGER NOT NULL $st_auto_increment,
 						con_st_nome CHAR(200),
-						con_st_email CHAR(100),
+						con_st_descricao CHAR(200),
+						con_in_admin_acessos INTEGER,
+						con_in_admin_gestos INTEGER,
 						PRIMARY KEY(con_in_id)
 					)";
 

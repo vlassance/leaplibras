@@ -228,7 +228,6 @@ class NivelModel extends PersistModelAbstract
 		}
 		catch (PDOException $e)
 		{
-			throw $e;
 		}
 		return false;				
 	}
