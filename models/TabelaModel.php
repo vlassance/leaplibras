@@ -15,11 +15,11 @@ class TabelaModel extends PersistModelAbstract
 	public function init()
 	{
 		$this->tabelas_info = array(
-			array("Níveis", "?controle=Nivel&acao=listarNivel"),
-			array("Acessos dos Usuários", "?controle=Acesso&acao=listarAcesso"),
+			array("Níveis do Jogo", "?controle=Nivel&acao=listarNivel"),
+			array("Níveis de Acesso dos Usuários", "?controle=Acesso&acao=listarAcesso"),
 			array("Usuários", "?controle=Usuario&acao=listarUsuario"),
 			array("Informações Usuário por Nível", "?controle=NivelUsuario&acao=listarNivelUsuario"),
-			array("Questões", "?controle=Questao&acao=listarQuestao"),
+			array("Questões do Jogo", "?controle=Questao&acao=listarQuestao"),
 			array("Gestos e suas Mídias", "?controle=MidiaGesto&acao=listarMidiaGesto"),
 		);
 	}
