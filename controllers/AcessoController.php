@@ -24,7 +24,7 @@ class AcessoController
 		$o_view->setParams(array('v_acessos' => $v_acessos));
 		
 		//Imprimindo código HTML
-		$o_view->showContents();
+		$o_view->showPage();
 	}
 	
 	
@@ -57,7 +57,7 @@ class AcessoController
 			
 		$o_view = new View('views/manterAcesso.phtml');
 		$o_view->setParams(array('o_acesso' => $o_acesso));
-		$o_view->showContents();
+		$o_view->showPage();
 	}
 	
 	/**

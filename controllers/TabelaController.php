@@ -22,7 +22,7 @@ class TabelaController
 		$o_view->setParams(array('v_tabelas' => $v_tabelas));
 		
 		//Imprimindo código HTML
-		$o_view->showContents();
+		$o_view->showPage();
 	}
 
 }	

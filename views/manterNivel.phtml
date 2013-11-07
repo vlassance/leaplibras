@@ -2,76 +2,57 @@
 $v_params = $this->getParams();
 $o_nivel = $v_params['o_nivel'];
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>
-		Niveis
-	</title>
-	<link rel="stylesheet" type="text/css" href="template/css/default.css" />
-</head>
-<body>
-	<div align="center">
-		<form method='post'>
-		<table class='table_list' width="300">
-			<tr>
-				<th>
-					Nome
-				</th>
-				<th>
-					Id_anterior
-				</th>
-				<th>
-					Id_proximo
-				</th>
-				<th>
-					Level
-				</th>
-				<th>
-					Aleatório?
-				</th>
-				<th>
-					Total Questões
-				</th>
-				<th colspan="2">
-					A&ccedil;&otilde;es
-				</th>
-			</tr>
-			<tr>
-				<td>
-					<input type='text' name='st_nome' value='<?php echo $o_nivel->getNome()?>'> 
-				</td>
-				<td>
-					<input type='text' name='in_id_anterior' value='<?php echo $o_nivel->getIdAnterior()?>'>
-				</td>
-				<td>
-					<input type='text' name='in_id_proximo' value='<?php echo $o_nivel->getIdProximo()?>'>
-				</td>
-				<td>
-					<input type='text' name='st_level' value='<?php echo $o_nivel->getLevel()?>'>
-				</td>		
-				<td>
-					<select name='bo_aleatorio'>
-					  <option value="false" <?php if (!$o_nivel->getAleatorio()) echo "selected" ?>>Não</option>
-					  <option value="true" <?php if ($o_nivel->getAleatorio()) echo "selected" ?>>Sim</option>
-					</select>
-				</td>
-				<td>
-					<input type='text' name='in_total_questoes' value='<?php echo $o_nivel->getTotalQuestoes()?>'>
-				</td>		
-				<td align="center">
-					<a href='?controle=Nivel&acao=listarNivel' class='bt_red'>Cancelar</a>
-				</td>
-				<td align="center">
-					<input type='hidden' name='controle' value='Nivel'>
-					<input type='hidden' name='acao' value='manterNivel'>
-					<input type='hidden' name='in_id' value='<?php echo $o_nivel->getId()?>'>
-					<button type='submit' class='bt_green'>Salvar</button>
-				</td>
-			</tr>			
-		</table>
-		</form>
-	</div>
-</body>
-</html>
+<div class="hero-unit">
+    <h2>Nível do Jogo</h2>
+    <hr>
+	<form class="form-horizontal" method='post'>
+	  <div class="control-group">
+	    <label class="control-label" for="st_nome">Nome</label>
+	    <div class="controls">
+	      <input type="text" id="st_nome" name='st_nome' value='<?php echo $o_nivel->getNome()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_id_anterior">ID Anterior</label>
+	    <div class="controls">
+	      <input type="text" id="in_id_anterior" name='in_id_anterior' value='<?php echo $o_nivel->getIdAnterior()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_id_proximo">ID Próximo</label>
+	    <div class="controls">
+	      <input type="text" id="in_id_proximo" name='in_id_proximo' value='<?php echo $o_nivel->getIdProximo()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_level">Level</label>
+	    <div class="controls">
+	      <input type="text" id="st_level" name='st_level' value='<?php echo $o_nivel->getLevel()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="bo_aleatorio">Aleatório?</label>
+	    <div class="controls">
+		  <select id="bo_aleatorio" name='bo_aleatorio'>
+		    <option value="false" <?php if (!$o_nivel->getAleatorio()) echo "selected" ?>>Não</option>
+			<option value="true" <?php if ($o_nivel->getAleatorio()) echo "selected" ?>>Sim</option>
+		  </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_total_questoes">Total Questões</label>
+	    <div class="controls">
+	      <input type="text" id="in_total_questoes" name='in_total_questoes' value='<?php echo $o_nivel->getTotalQuestoes()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+			<input type='hidden' name='controle' value='Nivel'>
+			<input type='hidden' name='acao' value='manterNivel'>
+			<input type='hidden' name='in_id' value='<?php echo $o_nivel->getId()?>'>
+			<a href='?controle=Nivel&acao=listarNivel'>Cancelar</a>
+			<button type='submit' class='btn'>Salvar</button>
+	    </div>
+	  </div>
+	</form>
+</div>

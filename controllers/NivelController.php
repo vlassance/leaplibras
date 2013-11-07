@@ -24,7 +24,7 @@ class NivelController
 		$o_view->setParams(array('v_niveis' => $v_niveis));
 		
 		//Imprimindo código HTML
-		$o_view->showContents();
+		$o_view->showPage();
 	}
 	
 	
@@ -59,7 +59,7 @@ class NivelController
 			
 		$o_view = new View('views/manterNivel.phtml');
 		$o_view->setParams(array('o_nivel' => $o_nivel));
-		$o_view->showContents();
+		$o_view->showPage();
 	}
 	
 	/**

@@ -2,38 +2,19 @@
 $v_params = $this->getParams();
 $v_tabelas = $v_params['v_tabelas'];
 ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-	<title>
-		Lista de tabelas
-	</title>
-	<link rel="stylesheet" type="text/css" href="template/css/default.css" />
-</head>
-<body>
-	<div align="center">
-		<table class='table_list' width="80%">
-			<tr>
-				<th>
-					Tabelas
-				</th>
-			</tr>
-			<?php
-			foreach($v_tabelas AS $o_tabela)
-			{
-				?>
-				<tr>
-					<td align="center">
-						<a href="<?php echo $o_tabela->getUrl()?>">Tabela de <?php echo $o_tabela->getTitle()?></a>
-					</td>
-				</tr>
-				<?php
-			}
-			?>
-		</table>
-		<br />
-		<a href='index' class='bt_blue'>Voltar</a>
-	</div>
-</body>
-</html>
+<div class="hero-unit">
+    <h2>Lista de tabelas</h1>
+    <hr>
+	<?php
+	foreach($v_tabelas AS $o_tabela)
+	{
+		?>
+		<p>
+			<a href="<?php echo $o_tabela->getUrl()?>">Tabela de <?php echo $o_tabela->getTitle()?></a>
+		</p>
+		<?php
+	}
+	?>
+	<br />
+	<a href='index' class='bt_blue'>Voltar</a>
+</div>
