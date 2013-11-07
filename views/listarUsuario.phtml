@@ -1,0 +1,77 @@
+<?php
+$v_params = $this->getParams();
+$v_usuarios = $v_params['v_usuarios'];
+?>
+<div class="hero-unit">
+    <h2>Lista de usuários do site</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Nome
+				</th>
+				<th>
+					Idade
+				</th>
+				<th>
+					Gênero
+				</th>
+				<th>
+					E-mail
+				</th>
+				<th>
+					FBID
+				</th>
+				<th>
+					ID Nível Acesso
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_usuarios AS $o_usuario)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_usuario->getId()?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getNome()?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getIdade()?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getGenero()?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getEmail()?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getFbid() ?>
+					</td>
+					<td>
+						<?php echo $o_usuario->getIdNivelAcesso()?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=Usuario&acao=manterUsuario&in_id=<?php echo $o_usuario->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=Usuario&acao=apagarUsuario&in_id=<?php echo $o_usuario->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=Usuario&acao=manterUsuario'>Novo Usuário</a>
+	</div>
+</div>
