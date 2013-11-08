@@ -10,6 +10,10 @@
 * Controlador que deverá ser chamado quando não for
 * especificado nenhum outro
 */
+
+require_once 'models/UsuarioModel.php';
+require_once 'models/NivelUsuarioModel.php';
+
 class JogoController
 {
 
@@ -35,31 +39,32 @@ class JogoController
 		//mostrar a lista de contatos
 		$o_view = new View('views/listarJogo.phtml');
 
-		$o_view->setParams(array('v_niveis' => $v_niveis));
+		//$o_view->setParams(array('v_niveis' => $v_niveis));
 		
 		//Imprimindo código HTML
 		$o_view->showPage();
 	}
 
-	public setJogo(){
+	public function setJogo(){
 
-		$uid=4;
+		$uid=1;
 		$usuario = new UsuarioModel();
 		$usuario = $usuario->loadbyID($uid);
 
-		this->setUsuario($)
+		$this->setUsuario($usuario);
 		
 		$nivelusuario = new NivelUsuarioModel();
 		$listunivel = $nivelusuario->loadByIdUsuario($uid);
 
-		this->setListunievl($listunivel);
+		$this->setListunievl($listunivel);
+
 	}
 
-	public setUsuario($usuario){
+	public function setUsuario($usuario){
 		$this->usuario = $usuario;
 	}
 
-	public setListunievl($listunivel){
+	public function setListunievl($listunivel){
 		$this->listunivel = $listunivel;
 	}
 }
