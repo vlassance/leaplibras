@@ -1,0 +1,59 @@
+<?php
+$v_params = $this->getParams();
+$v_nivel_usuarios = $v_params['v_nivel_usuarios'];
+?>
+<div class="hero-unit">
+    <h2>Lista com relações Usuário-Nível do jogo</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					ID Usuário
+				</th>
+				<th>
+					ID Nível
+				</th>
+				<th>
+					Max Score
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_nivel_usuarios AS $o_nivel_usuario)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_nivel_usuario->getId()?>
+					</td>
+					<td>
+						<?php echo $o_nivel_usuario->getIdUsuario()?>
+					</td>
+					<td>
+						<?php echo $o_nivel_usuario->getIdNivel()?>
+					</td>
+					<td>
+						<?php echo $o_nivel_usuario->getMaxScore()?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=NivelUsuario&acao=manterNivelUsuario&in_id=<?php echo $o_nivel_usuario->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=NivelUsuario&acao=apagarNivelUsuario&in_id=<?php echo $o_nivel_usuario->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=NivelUsuario&acao=manterNivelUsuario'>Nova relação Usuário-Nível</a>
+	</div>
+</div>
