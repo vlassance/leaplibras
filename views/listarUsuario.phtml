@@ -27,7 +27,7 @@ $v_usuarios = $v_params['v_usuarios'];
 					FBID
 				</th>
 				<th>
-					ID Nível Acesso
+					Nível Acesso
 				</th>
 				<th colspan="2">
 					Ações
@@ -56,8 +56,8 @@ $v_usuarios = $v_params['v_usuarios'];
 					<td>
 						<?php echo $o_usuario->getFbid() ?>
 					</td>
-					<td>
-						<?php echo $o_usuario->getIdNivelAcesso()?>
+					<td title="<?php echo $o_usuario->getNivelAcesso()->getDescricao() ?>">
+						<?php echo $o_usuario->getNivelAcesso()->getNome() ?>
 					</td>
 			
 					<td align="center">

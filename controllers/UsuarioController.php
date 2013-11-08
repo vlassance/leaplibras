@@ -34,6 +34,9 @@ class UsuarioController
 	*/
 	public function manterUsuarioAction()
 	{
+		$acesso = new AcessoModel();
+		$v_acessos = $acesso->_list();
+		
 		$o_usuario = new UsuarioModel();
 		
 		//verificando se o id do Usuario foi passado
@@ -58,7 +61,7 @@ class UsuarioController
 		}
 			
 		$o_view = new View('views/manterUsuario.phtml');
-		$o_view->setParams(array('o_usuario' => $o_usuario));
+		$o_view->setParams(array('o_usuario' => $o_usuario, 'v_acessos' => $v_acessos));
 		$o_view->showPage();
 	}
 	

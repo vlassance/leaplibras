@@ -1,6 +1,8 @@
 <?php
 $v_params = $this->getParams();
 $o_usuario = $v_params['o_usuario'];
+$v_acessos = $v_params['v_acessos'];
+echo $v_acessos[0]->getNome();
 ?>
 <div class="hero-unit">
     <h2>Perfil do Usuário</h2>
@@ -40,9 +42,16 @@ $o_usuario = $v_params['o_usuario'];
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_nivel_acesso">ID Nível de Acesso</label>
+	    <label class="control-label" for="in_id_nivel_acesso">Nível de Acesso</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_nivel_acesso" name='in_id_nivel_acesso' value='<?php echo $o_usuario->getIdNivelAcesso()?>'>
+		  <select id="in_id_nivel_acesso" name='in_id_nivel_acesso'>
+			  <?php foreach($v_acessos as $acesso) {
+				  echo "<option value='{$acesso->getId()}' ";
+				  if ($o_usuario->getIdNivelAcesso() == $acesso->getId())
+					  echo "selected";
+				  echo ">{$acesso->getNome()}</option>";
+			  } ?>
+		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">

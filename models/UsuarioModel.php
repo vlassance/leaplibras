@@ -1,4 +1,5 @@
 <?php
+require_once 'models/AcessoModel.php';
 
 class UsuarioModel extends PersistModelAbstract
 {
@@ -106,6 +107,15 @@ class UsuarioModel extends PersistModelAbstract
 	public function getIdNivelAcesso()
 	{
 		return $this->in_id_nivel_acesso;
+	}
+	
+	public function getNivelAcesso()
+	{
+		if (!DataValidator::isNumeric($this->in_id_nivel_acesso) || $this->in_id_nivel_acesso <= 0)
+			return null;
+		
+		$nivel_acesso = new AcessoModel();
+		return  $nivel_acesso->loadById($this->in_id_nivel_acesso);
 	}
 	
 	/**
