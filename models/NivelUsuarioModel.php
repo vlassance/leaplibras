@@ -1,4 +1,6 @@
 <?php
+require_once 'models/UsuarioModel.php';
+require_once 'models/NivelModel.php';
 
 class NivelUsuarioModel extends PersistModelAbstract
 {
@@ -47,6 +49,15 @@ class NivelUsuarioModel extends PersistModelAbstract
 		return $this->in_id_usuario;
 	}
 	
+	public function getUsuario()
+	{
+		if (!DataValidator::isNumeric($this->in_id_usuario) || $this->in_id_usuario <= 0)
+			return null;
+		
+		$usuario = new UsuarioModel();
+		return  $usuario->loadById($this->in_id_usuario);
+	}
+	
 	public function setIdNivel( $in_id_nivel )
 	{
 		$this->in_id_nivel = $in_id_nivel;
@@ -56,6 +67,15 @@ class NivelUsuarioModel extends PersistModelAbstract
 	public function getIdNivel()
 	{
 		return $this->in_id_nivel;
+	}
+	
+	public function getNivel()
+	{
+		if (!DataValidator::isNumeric($this->in_id_nivel) || $this->in_id_nivel <= 0)
+			return null;
+		
+		$nivel = new NivelModel();
+		return  $nivel->loadById($this->in_id_nivel);
 	}
 	
 	public function setMaxScore( $in_max_score )

@@ -12,10 +12,10 @@ $v_nivel_usuarios = $v_params['v_nivel_usuarios'];
 					ID
 				</th>
 				<th>
-					ID Usuário
+					Usuário
 				</th>
 				<th>
-					ID Nível
+					Nível
 				</th>
 				<th>
 					Max Score
@@ -32,11 +32,11 @@ $v_nivel_usuarios = $v_params['v_nivel_usuarios'];
 					<td>
 						<?php echo $o_nivel_usuario->getId()?>
 					</td>
-					<td>
-						<?php echo $o_nivel_usuario->getIdUsuario()?>
+					<td title="<?php echo $o_nivel_usuario->getUsuario()->getEmail() ?>">
+						<?php echo $o_nivel_usuario->getUsuario()->getNome() ?> (<?php echo $o_nivel_usuario->getUsuario()->getNivelAcesso()->getNome() ?>)
 					</td>
-					<td>
-						<?php echo $o_nivel_usuario->getIdNivel()?>
+					<td title="Level: <?php echo $o_nivel_usuario->getNivel()->getLevel() ?>">
+						<?php echo $o_nivel_usuario->getNivel()->getNome() ?>
 					</td>
 					<td>
 						<?php echo $o_nivel_usuario->getMaxScore()?>
