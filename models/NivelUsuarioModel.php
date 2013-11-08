@@ -108,6 +108,16 @@ class NivelUsuarioModel extends PersistModelAbstract
 		$this->setParams($o_ret);		
 		return $this;
 	}
+
+	public function loadByIdUsuario( $in_id_usuario )
+	{
+		$v_nivel_usuarios = array();
+		$st_query = "SELECT * FROM tbl_nivel_usuario WHERE con_in_id_usuario = $in_id_usuario;";
+		$o_data = $this->o_db->query($st_query);
+		$o_ret = $o_data->fetchObject();
+		$this->setParams($o_ret);		
+		return $this;
+	}
 	
 	/**
 	* Salva dados contidos na instancia da classe
