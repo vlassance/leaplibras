@@ -1,0 +1,66 @@
+<?php
+$v_params = $this->getParams();
+$v_acessos = $v_params['v_acessos'];
+?>
+<div class="hero-unit">
+    <h2>Lista de níveis de acessos</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Nome
+				</th>
+				<th>
+					Descrição
+				</th>
+				<th>
+					Admin Gestos?
+				</th>
+				<th>
+					Admin Acessos?
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_acessos AS $o_acesso)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_acesso->getId()?>
+					</td>
+					<td>
+						<?php echo $o_acesso->getNome()?>
+					</td>
+					<td>
+						<?php echo $o_acesso->getDescricao()?>
+					</td>
+					<td>
+						<?php echo $o_acesso->getAdminGestos()?"Sim":"Não" ?>
+					</td>
+					<td>
+						<?php echo $o_acesso->getAdminAcessos()?"Sim":"Não" ?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=Acesso&acao=manterAcesso&in_id=<?php echo $o_acesso->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=Acesso&acao=apagarAcesso&in_id=<?php echo $o_acesso->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=Acesso&acao=manterAcesso'>Novo Acesso</a>
+	</div>
+</body>
+</html>

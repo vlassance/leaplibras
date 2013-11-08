@@ -1,0 +1,46 @@
+<?php
+$v_params = $this->getParams();
+$o_midia_gesto = $v_params['o_midia_gesto'];
+?>
+<div class="hero-unit">
+    <h2>Mídia-Gesto</h2>
+    <hr>
+	<form class="form-horizontal" method='post'>
+	  <div class="control-group">
+	    <label class="control-label" for="st_titulo">Título</label>
+	    <div class="controls">
+	      <input type="text" id="st_titulo" name='st_titulo' value='<?php echo $o_midia_gesto->getTitulo()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_filepath">Caminho do Arquivo</label>
+	    <div class="controls">
+	      <input type="text" id="st_filepath" name='st_filepath' value='<?php echo $o_midia_gesto->getFilepath()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_json">JSON</label>
+	    <div class="controls">
+	      <input type="text" id="st_json" name='st_json' value='<?php echo $o_midia_gesto->getJson()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_tipo_midia">Tipo de Mídia</label>
+	    <div class="controls">
+		  <select id="st_tipo_midia" name='st_tipo_midia'>
+		    <option value="V" <?php if ($o_midia_gesto->getTipoMidia() == "V") echo "selected" ?>>Vídeo</option>
+			<option value="I" <?php if ($o_midia_gesto->getTipoMidia() == "I") echo "selected" ?>>Imagem</option>
+		  </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+			<input type='hidden' name='controle' value='MidiaGesto'>
+			<input type='hidden' name='acao' value='manterMidiaGesto'>
+			<input type='hidden' name='in_id' value='<?php echo $o_midia_gesto->getId()?>'>
+			<a href='?controle=MidiaGesto&acao=listarMidiaGesto'>Cancelar</a>
+			<button type='submit' class='btn'>Salvar</button>
+	    </div>
+	  </div>
+	</form>
+</div>

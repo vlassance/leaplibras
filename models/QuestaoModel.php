@@ -1,36 +1,28 @@
 <?php
-require_once 'models/TelefoneModel.php';
 
-
-/**
-* @package Exemplo simples com MVC 
-* @author DigitalDev 
-* @version 0.1.1
-*  
-* Camada - Modelo ou Model.
-* Diretório Pai - models  
-* Arquivo - TelefoneModel
-*
-* Responsável por gerenciar e persistir os dados dos  
-* Contatos da Agenda Telefônica 
-**/
-class ContatoModel extends PersistModelAbstract
+class QuestaoModel extends PersistModelAbstract
 {
 	private $in_id;
-	private $st_nome;
-	private $st_email;
+	private $st_titulo;
+	private $in_id_nivel;
+	private $in_id_midia_gesto;
 	
 	function __construct()
 	{
 		parent::__construct();
-		//executa método de criação da tabela de Telefone
-		$this->createTableContato();
+		$this->createTableQuestao();
 	}
 	
+	private function setParams($obj)
+	{
+		$this->setId($obj->con_in_id);
+		$this->setTitulo($obj->con_st_titulo);
+		$this->setIdNivel($obj->con_in_id_nivel);
+		$this->setIdMidiaGesto($obj->con_in_id_midia_gesto);
+	}
 	
 	/**
-	 * Setters e Getters da
-	 * classe TelefoneModel
+	 * Setters e Getters
 	 */
 	
 	public function setId( $in_id )
@@ -44,79 +36,86 @@ class ContatoModel extends PersistModelAbstract
 		return $this->in_id;
 	}
 	
-	public function setNome( $st_nome )
+	public function setTitulo( $st_titulo )
 	{
-		$this->st_nome = $st_nome;
+		$this->st_titulo = $st_titulo;
 		return $this;
 	}
 	
-	public function getNome()
+	public function getTitulo()
 	{
-		return $this->st_nome;
+		return $this->st_titulo;
 	}
 	
-	public function setEmail( $st_email )
+	public function setIdNivel( $in_id_nivel )
 	{
-		$this->st_email = $st_email;
+		$this->in_id_nivel = $in_id_nivel;
 		return $this;
 	}
 	
-	public function getEmail()
+	public function getIdNivel()
 	{
-		return $this->st_email;
+		return $this->in_id_nivel;
+	}
+	
+	public function setIdMidiaGesto( $in_id_midia_gesto )
+	{
+		$this->in_id_midia_gesto = $in_id_midia_gesto;
+		return $this;
+	}
+	
+	public function getIdMidiaGesto()
+	{
+		return $this->in_id_midia_gesto;
 	}
 	
 	/**
-	* Retorna um array contendo os contatos
-	* @param string $st_nome
+	* Retorna um array contendo os questoes
+	* @param string $st_titulo
 	* @return Array
 	*/
-	public function _list( $st_nome = null )
+	public function _list( $st_titulo = null )
 	{
-		if(!is_null($st_nome))
-			$st_query = "SELECT * FROM tbl_contato WHERE con_st_nome LIKE '%$st_nome%';";
+		if(!is_null($st_titulo))
+			$st_query = "SELECT * FROM tbl_questao WHERE con_st_titulo LIKE '%$st_titulo%';";
 		else
-			$st_query = 'SELECT * FROM tbl_contato;';	
+			$st_query = 'SELECT * FROM tbl_questao;';	
 		
-		$v_contatos = array();
+		$v_questoes = array();
 		try
 		{
 			$o_data = $this->o_db->query($st_query);
 			while($o_ret = $o_data->fetchObject())
 			{
-				$o_contato = new ContatoModel();
-				$o_contato->setId($o_ret->con_in_id);
-				$o_contato->setNome($o_ret->con_st_nome);
-				$o_contato->setEmail($o_ret->con_st_email);
-				array_push($v_contatos, $o_contato);
+				$o_questao = new QuestaoModel();
+				$o_questao->setParams($o_ret);
+				array_push($v_questoes, $o_questao);
 			}
 		}
 		catch(PDOException $e)
 		{}				
-		return $v_contatos;
+		return $v_questoes;
 	}
 	
 	/**
-	* Retorna os dados de um contato referente
+	* Retorna os dados de um questao referente
 	* a um determinado Id
 	* @param integer $in_id
-	* @return ContatoModel
+	* @return QuestaoModel
 	*/
 	public function loadById( $in_id )
 	{
-		$v_contatos = array();
-		$st_query = "SELECT * FROM tbl_contato WHERE con_in_id = $in_id;";
+		$v_questoes = array();
+		$st_query = "SELECT * FROM tbl_questao WHERE con_in_id = $in_id;";
 		$o_data = $this->o_db->query($st_query);
 		$o_ret = $o_data->fetchObject();
-		$this->setId($o_ret->con_in_id);
-		$this->setNome($o_ret->con_st_nome);
-		$this->setEmail($o_ret->con_st_email);		
+		$this->setParams($o_ret);		
 		return $this;
 	}
 	
 	/**
 	* Salva dados contidos na instancia da classe
-	* na tabela de contato. Se o ID for passado,
+	* na tabela de questao. Se o ID for passado,
 	* um UPDATE será executado, caso contrário, um
 	* INSERT será executado
 	* @throws PDOException
@@ -124,28 +123,31 @@ class ContatoModel extends PersistModelAbstract
 	*/
 	public function save()
 	{
-		if(is_null($this->in_id))
-			$st_query = "INSERT INTO tbl_contato
+		if(is_null($this->in_id)) {
+			$st_query = "INSERT INTO tbl_questao
 						(
-							con_st_nome,
-							con_st_email
+							con_st_titulo,
+							con_in_id_nivel,
+							con_in_id_midia_gesto
 						)
 						VALUES
 						(
-							'$this->st_nome',
-							'$this->st_email'
+							'$this->st_titulo',
+							$this->in_id_nivel,
+							$this->in_id_midia_gesto
 						);";
-		else
+		} else {
 			$st_query = "UPDATE
-							tbl_contato
+							tbl_questao
 						SET
-							con_st_nome = '$this->st_nome',
-							con_st_email = '$this->st_email'
+							con_st_titulo = '$this->st_titulo',
+							con_in_id_nivel = $this->in_id_nivel,
+							con_in_id_midia_gesto = $this->in_id_midia_gesto
 						WHERE
 							con_in_id = $this->in_id";
+		}
 		try
-		{
-			
+		{	
 			if($this->o_db->exec($st_query) > 0)
 				if(is_null($this->in_id))
 				{
@@ -168,21 +170,20 @@ class ContatoModel extends PersistModelAbstract
 		}
 		catch (PDOException $e)
 		{
-			throw $e;
 		}
 		return false;				
 	}
 
 	/**
 	* Deleta os dados persistidos na tabela de
-	* contato usando como referencia, o id da classe.
+	* questao usando como referencia, o id da classe.
 	*/
 	public function delete()
 	{
 		if(!is_null($this->in_id))
 		{
 			$st_query = "DELETE FROM
-							tbl_contato
+							tbl_questao
 						WHERE con_in_id = $this->in_id";
 			if($this->o_db->exec($st_query) > 0)
 				return true;
@@ -191,11 +192,11 @@ class ContatoModel extends PersistModelAbstract
 	}
 	
 	/**
-	* Cria tabela para armazernar os dados de contato, caso
+	* Cria tabela para armazernar os dados de questao, caso
 	* ela ainda não exista.
 	* @throws PDOException
 	*/
-	private function createTableContato()
+	private function createTableQuestao()
 	{
 		/*
 		* No caso do Sqlite, o AUTO_INCREMENT é automático na chave primaria da tabela
@@ -206,11 +207,12 @@ class ContatoModel extends PersistModelAbstract
 		else
 			$st_auto_increment = 'AUTO_INCREMENT';
 		
-		$st_query = "CREATE TABLE IF NOT EXISTS tbl_contato
+		$st_query = "CREATE TABLE IF NOT EXISTS tbl_questao
 					(
 						con_in_id INTEGER NOT NULL $st_auto_increment,
-						con_st_nome CHAR(200),
-						con_st_email CHAR(100),
+						con_st_titulo CHAR(200),
+						con_in_id_nivel INTEGER,
+						con_in_id_midia_gesto INTEGER,
 						PRIMARY KEY(con_in_id)
 					)";
 

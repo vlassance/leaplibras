@@ -1,0 +1,37 @@
+<?php
+$v_params = $this->getParams();
+$o_nivel_usuario = $v_params['o_nivel_usuario'];
+?>
+<div class="hero-unit">
+    <h2>Relação Usuário-Nível do Jogo</h2>
+    <hr>
+	<form class="form-horizontal" method='post'>
+	  <div class="control-group">
+	    <label class="control-label" for="in_id_usuario">ID Usuário</label>
+	    <div class="controls">
+	      <input type="text" id="in_id_usuario" name='in_id_usuario' value='<?php echo $o_nivel_usuario->getIdUsuario()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_id_nivel">ID Nível</label>
+	    <div class="controls">
+	      <input type="text" id="in_id_nivel" name='in_id_nivel' value='<?php echo $o_nivel_usuario->getIdNivel()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_max_score">Max Score</label>
+	    <div class="controls">
+	      <input type="text" id="in_max_score" name='in_max_score' value='<?php echo $o_nivel_usuario->getMaxScore()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+			<input type='hidden' name='controle' value='NivelUsuario'>
+			<input type='hidden' name='acao' value='manterNivelUsuario'>
+			<input type='hidden' name='in_id' value='<?php echo $o_nivel_usuario->getId()?>'>
+			<a href='?controle=NivelUsuario&acao=listarNivelUsuario'>Cancelar</a>
+			<button type='submit' class='btn'>Salvar</button>
+	    </div>
+	  </div>
+	</form>
+</div>

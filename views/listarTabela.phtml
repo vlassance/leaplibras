@@ -1,0 +1,20 @@
+<?php
+$v_params = $this->getParams();
+$v_tabelas = $v_params['v_tabelas'];
+?>
+<div class="hero-unit">
+    <h2>Lista de tabelas</h1>
+    <hr>
+	<?php
+	foreach($v_tabelas AS $o_tabela)
+	{
+		?>
+		<p>
+			<a href="<?php echo $o_tabela->getUrl()?>">Tabela de <?php echo $o_tabela->getTitle()?></a>
+		</p>
+		<?php
+	}
+	?>
+	<br />
+	<a href='index' class='bt_blue'>Voltar</a>
+</div>

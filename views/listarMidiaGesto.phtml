@@ -1,0 +1,65 @@
+<?php
+$v_params = $this->getParams();
+$v_midia_gestos = $v_params['v_midia_gestos'];
+?>
+<div class="hero-unit">
+    <h2>Lista de mídia-gestos do site</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Título
+				</th>
+				<th>
+					Caminho do Arquivo
+				</th>
+				<th>
+					JSON
+				</th>
+				<th>
+					Tipo de Mídia
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_midia_gestos AS $o_midia_gesto)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_midia_gesto->getId()?>
+					</td>
+					<td>
+						<?php echo $o_midia_gesto->getTitulo()?>
+					</td>
+					<td>
+						<?php echo $o_midia_gesto->getFilepath()?>
+					</td>
+					<td>
+						<?php echo $o_midia_gesto->getJson()?>
+					</td>
+					<td>
+						<?php echo $o_midia_gesto->getTipoMidia() ?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=MidiaGesto&acao=manterMidiaGesto&in_id=<?php echo $o_midia_gesto->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=MidiaGesto&acao=apagarMidiaGesto&in_id=<?php echo $o_midia_gesto->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=MidiaGesto&acao=manterMidiaGesto'>Nova Mídia-Gesto</a>
+	</div>
+</div>

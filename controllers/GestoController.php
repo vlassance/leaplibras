@@ -41,6 +41,28 @@ class GestoController
 		$o_view->showContents();
 	}
 	
+	/**
+	* Efetua a manipulação dos modelos necessários
+	* para a aprensentação da lista de Gestos
+	*/
+	public function todosGestosAction()
+	{
+		$o_gesto = new GestoModel();
+		
+		//Listando os Gestos cadastrados
+		$v_gestos = $o_gesto->_list();
+		
+		//definindo qual o arquivo HTML que será usado para
+		//mostrar a lista de Gestos
+		$o_view = new View('trainer/listarGesto.phtml');
+		//$o_view = new View('trainer/index.phtml');
+		
+		//Passando os dados do Gesto para a View
+		$o_view->setParams(array('v_gestos' => $v_gestos));
+		
+		//Imprimindo código HTML
+		$o_view->showContents();
+	}
 	
 	/**
 	* Gerencia a  de criação
@@ -79,11 +101,11 @@ class GestoController
 	{
 
 
-		if( DataValidator::isNumeric($_POST['in_ges']) )
+		if( DataValidator::isNumeric($_REQUEST['in_ges']) )
 		{
 			//apagando o Gesto
 			$o_Gesto = new GestoModel();
-			$o_Gesto->loadById($_POST['in_ges']);
+			$o_Gesto->loadById($_REQUEST['in_ges']);
 			$o_Gesto->delete();
 			
 			Application::redirect('?controle=Gesto&acao=listarGesto');

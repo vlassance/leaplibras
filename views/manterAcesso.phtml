@@ -1,0 +1,49 @@
+<?php
+$v_params = $this->getParams();
+$o_acesso = $v_params['o_acesso'];
+?>
+<div class="hero-unit">
+    <h2>Nível de Acesso</h2>
+    <hr>
+	<form class="form-horizontal" method='post'>
+	  <div class="control-group">
+	    <label class="control-label" for="st_nome">Nome</label>
+	    <div class="controls">
+	      <input type="text" id="st_nome" name='st_nome' value='<?php echo $o_acesso->getNome()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_descricao">Descrição</label>
+	    <div class="controls">
+	      <input type="text" id="st_descricao" name='st_descricao' value='<?php echo $o_acesso->getDescricao()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="bo_admin_gestos">Admin Gestos?</label>
+	    <div class="controls">
+		  <select id="bo_admin_gestos" name='bo_admin_gestos'>
+		    <option value="false" <?php if (!$o_acesso->getAdminGestos()) echo "selected" ?>>Não</option>
+			<option value="true" <?php if ($o_acesso->getAdminGestos()) echo "selected" ?>>Sim</option>
+		  </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="bo_admin_acessos">Admin Acessos?</label>
+	    <div class="controls">
+		  <select id="bo_admin_acessos" name='bo_admin_acessos'>
+		    <option value="false" <?php if (!$o_acesso->getAdminAcessos()) echo "selected" ?>>Não</option>
+			<option value="true" <?php if ($o_acesso->getAdminAcessos()) echo "selected" ?>>Sim</option>
+		  </select>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+			<input type='hidden' name='controle' value='Acesso'>
+			<input type='hidden' name='acao' value='manterAcesso'>
+			<input type='hidden' name='in_id' value='<?php echo $o_acesso->getId()?>'>
+			<a href='?controle=Acesso&acao=listarAcesso'>Cancelar</a>
+			<button type='submit' class='btn'>Salvar</button>
+	    </div>
+	  </div>
+	</form>
+</div>

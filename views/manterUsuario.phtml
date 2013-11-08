@@ -1,0 +1,58 @@
+<?php
+$v_params = $this->getParams();
+$o_usuario = $v_params['o_usuario'];
+?>
+<div class="hero-unit">
+    <h2>Perfil do Usuário</h2>
+    <hr>
+	<form class="form-horizontal" method='post'>
+	  <div class="control-group">
+	    <label class="control-label" for="st_nome">Nome</label>
+	    <div class="controls">
+	      <input type="text" id="st_nome" name='st_nome' value='<?php echo $o_usuario->getNome()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_idade">Idade</label>
+	    <div class="controls">
+	      <input type="text" id="in_idade" name='in_idade' value='<?php echo $o_usuario->getIdade()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_genero">Gênero</label>
+	    <div class="controls">
+  		  <select id="st_genero" name='st_genero'>
+  		    <option value="M" <?php if ($o_usuario->getGenero() == "M") echo "selected" ?>>Masculino</option>
+  			<option value="F" <?php if ($o_usuario->getGenero() == "F") echo "selected" ?>>Feminino</option>
+  		  </select>
+	  	</div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_email">E-mail</label>
+	    <div class="controls">
+	      <input type="text" id="st_email" name='st_email' value='<?php echo $o_usuario->getEmail()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="st_fbid">FBID</label>
+	    <div class="controls">
+	      <input type="text" id="st_fbid" name='st_fbid' value='<?php echo $o_usuario->getFbid()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_id_nivel_acesso">ID Nível de Acesso</label>
+	    <div class="controls">
+	      <input type="text" id="in_id_nivel_acesso" name='in_id_nivel_acesso' value='<?php echo $o_usuario->getIdNivelAcesso()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <div class="controls">
+			<input type='hidden' name='controle' value='Usuario'>
+			<input type='hidden' name='acao' value='manterUsuario'>
+			<input type='hidden' name='in_id' value='<?php echo $o_usuario->getId()?>'>
+			<a href='?controle=Usuario&acao=listarUsuario'>Cancelar</a>
+			<button type='submit' class='btn'>Salvar</button>
+	    </div>
+	  </div>
+	</form>
+</div>

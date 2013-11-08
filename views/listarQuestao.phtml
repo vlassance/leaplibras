@@ -1,0 +1,59 @@
+<?php
+$v_params = $this->getParams();
+$v_questoes = $v_params['v_questoes'];
+?>
+<div class="hero-unit">
+    <h2>Lista de questões do jogo</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Título
+				</th>
+				<th>
+					ID Nível
+				</th>
+				<th>
+					ID Mídia-Gesto
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_questoes AS $o_questao)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_questao->getId()?>
+					</td>
+					<td>
+						<?php echo $o_questao->getTitulo()?>
+					</td>
+					<td>
+						<?php echo $o_questao->getIdNivel()?>
+					</td>
+					<td>
+						<?php echo $o_questao->getIdMidiaGesto()?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=Questao&acao=manterQuestao&in_id=<?php echo $o_questao->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=Questao&acao=apagarQuestao&in_id=<?php echo $o_questao->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=Questao&acao=manterQuestao'>Nova Questão</a>
+	</div>
+</div>

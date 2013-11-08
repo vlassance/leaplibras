@@ -1,0 +1,77 @@
+<?php
+$v_params = $this->getParams();
+$v_niveis = $v_params['v_niveis'];
+?>
+<div class="hero-unit">
+    <h2>Lista de níveis do jogo</h2>
+    <hr>
+	<div align="center">
+		<table class='table table-striped'>
+			<tr>
+				<th>
+					ID
+				</th>
+				<th>
+					Nome
+				</th>
+				<th>
+					ID Anterior
+				</th>
+				<th>
+					ID Próximo
+				</th>
+				<th>
+					Level
+				</th>
+				<th>
+					Aleatório?
+				</th>
+				<th>
+					Total Questões
+				</th>
+				<th colspan="2">
+					Ações
+				</th>
+			</tr>
+			<?php
+			foreach($v_niveis AS $o_nivel)
+			{
+				?>
+				<tr>
+					<td>
+						<?php echo $o_nivel->getId()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getNome()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getIdAnterior()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getIdProximo()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getLevel()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getAleatorio()?"Sim":"Não" ?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getTotalQuestoes()?>
+					</td>
+			
+					<td align="center">
+						<a href='?controle=Nivel&acao=manterNivel&in_id=<?php echo $o_nivel->getId()?>' class='bt_blue'>Editar</a>
+					</td>
+					<td align="center">
+						<a href='?controle=Nivel&acao=apagarNivel&in_id=<?php echo $o_nivel->getId()?>' class='bt_red'>Apagar</a>
+					</td>
+				</tr>
+				<?php
+			}
+			?>
+		</table>
+		<br />
+		<a href='?controle=Nivel&acao=manterNivel'>Novo Nível</a>
+	</div>
+</div>
