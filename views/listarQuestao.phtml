@@ -15,10 +15,10 @@ $v_questoes = $v_params['v_questoes'];
 					Título
 				</th>
 				<th>
-					ID Nível
+					Nível
 				</th>
 				<th>
-					ID Mídia-Gesto
+					Mídia-Gesto
 				</th>
 				<th colspan="2">
 					Ações
@@ -36,10 +36,10 @@ $v_questoes = $v_params['v_questoes'];
 						<?php echo $o_questao->getTitulo()?>
 					</td>
 					<td>
-						<?php echo $o_questao->getIdNivel()?>
+						<?php echo $o_questao->getNivel()->getNome()?>
 					</td>
 					<td>
-						<?php echo $o_questao->getIdMidiaGesto()?>
+						<?php echo $o_questao->getMidiaGesto()->getTitulo()?>
 					</td>
 			
 					<td align="center">
@@ -54,6 +54,8 @@ $v_questoes = $v_params['v_questoes'];
 			?>
 		</table>
 		<br />
-		<a href='?controle=Questao&acao=manterQuestao'>Nova Questão</a>
+		<a href='?controle=Tabela&acao=listarTabela'><i class="icon-circle-arrow-left"></i> Voltar à Lista de Tabelas</a>
+		|
+		<a href='?controle=Questao&acao=manterQuestao'><i class="icon-plus-sign"></i> Nova Questão</a>
 	</div>
 </div>

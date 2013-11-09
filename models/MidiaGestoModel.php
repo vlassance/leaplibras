@@ -66,9 +66,16 @@ class MidiaGestoModel extends PersistModelAbstract
 		return $this;
 	}
 	
-	public function getJson()
+	public function getJson( $length_text = -1 )
 	{
-		return $this->st_json;
+		if ($length_text <= 0)
+			return $this->st_json;
+		
+		$json_reduzido = substr($this->st_json, 0, $length_text);
+		if (strlen($this->st_json) > strlen($json_reduzido))
+			$json_reduzido .= "...";
+
+		return $json_reduzido;
 	}
 	
 	public function setTipoMidia( $st_tipo_midia )

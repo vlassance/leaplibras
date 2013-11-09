@@ -1,21 +1,37 @@
 <?php
 $v_params = $this->getParams();
 $o_nivel_usuario = $v_params['o_nivel_usuario'];
+$v_usuarios = $v_params['v_usuarios'];
+$v_niveis = $v_params['v_niveis'];
 ?>
 <div class="hero-unit">
     <h2>Relação Usuário-Nível do Jogo</h2>
     <hr>
 	<form class="form-horizontal" method='post'>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_usuario">ID Usuário</label>
+	    <label class="control-label" for="in_id_usuario">Usuário</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_usuario" name='in_id_usuario' value='<?php echo $o_nivel_usuario->getIdUsuario()?>'>
+  		  <select id="in_id_usuario" name='in_id_usuario'>
+  			  <?php foreach($v_usuarios as $usuario) {
+  				  echo "<option value='{$usuario->getId()}' ";
+  				  if ($o_nivel_usuario->getIdUsuario() == $usuario->getId())
+  					  echo "selected";
+  				  echo ">{$usuario->getNome()} ({$usuario->getNivelAcesso()->getNome()})</option>";
+  			  } ?>
+  		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_nivel">ID Nível</label>
+	    <label class="control-label" for="in_id_nivel">Nível</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_nivel" name='in_id_nivel' value='<?php echo $o_nivel_usuario->getIdNivel()?>'>
+		  <select id="in_id_nivel" name='in_id_nivel'>
+			  <?php foreach($v_niveis as $nivel) {
+				  echo "<option value='{$nivel->getId()}' ";
+				  if ($o_nivel_usuario->getIdNivel() == $nivel->getId())
+					  echo "selected";
+				  echo ">{$nivel->getNome()}</option>";
+			  } ?>
+		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">

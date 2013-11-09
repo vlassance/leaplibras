@@ -1,5 +1,7 @@
 ﻿<?php
 require_once 'models/QuestaoModel.php';
+require_once 'models/NivelModel.php';
+require_once 'models/MidiaGestoModel.php';
 
 class QuestaoController
 {
@@ -34,6 +36,11 @@ class QuestaoController
 	*/
 	public function manterQuestaoAction()
 	{
+		$nivel = new NivelModel();
+		$v_niveis = $nivel->_list();
+		$midia_gesto = new MidiaGestoModel();
+		$v_midia_gestos = $midia_gesto->_list();
+		
 		$o_questao = new QuestaoModel();
 		
 		//verificando se o id do Questao foi passado
@@ -55,7 +62,7 @@ class QuestaoController
 		}
 			
 		$o_view = new View('views/manterQuestao.phtml');
-		$o_view->setParams(array('o_questao' => $o_questao));
+		$o_view->setParams(array('o_questao' => $o_questao, 'v_niveis' => $v_niveis, 'v_midia_gestos' => $v_midia_gestos));
 		$o_view->showPage();
 	}
 	

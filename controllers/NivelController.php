@@ -34,6 +34,9 @@ class NivelController
 	*/
 	public function manterNivelAction()
 	{
+		$nivel = new NivelModel();
+		$v_niveis = $nivel->_list();
+		
 		$o_nivel = new NivelModel();
 		
 		//verificando se o id do Nivel foi passado
@@ -51,6 +54,7 @@ class NivelController
 			$o_nivel->setLevel(DataFilter::cleanString($_POST['st_level']));
 			$o_nivel->setAleatorio(DataFilter::cleanString($_POST['bo_aleatorio'])=="true");
 			$o_nivel->setTotalQuestoes(DataFilter::cleanString($_POST['in_total_questoes']));
+			$o_nivel->setPctAprovacao(DataFilter::cleanString($_POST['in_pct_aprovacao']));
 			
 			//salvando dados e redirecionando para a lista de Niveis
 			if($o_nivel->save() > 0)
@@ -58,7 +62,7 @@ class NivelController
 		}
 			
 		$o_view = new View('views/manterNivel.phtml');
-		$o_view->setParams(array('o_nivel' => $o_nivel));
+		$o_view->setParams(array('o_nivel' => $o_nivel, 'v_niveis' => $v_niveis));
 		$o_view->showPage();
 	}
 	

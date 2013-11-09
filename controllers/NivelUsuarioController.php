@@ -1,5 +1,7 @@
 ﻿<?php
 require_once 'models/NivelUsuarioModel.php';
+require_once 'models/UsuarioModel.php';
+require_once 'models/NivelModel.php';
 
 class NivelUsuarioController
 {
@@ -34,6 +36,11 @@ class NivelUsuarioController
 	*/
 	public function manterNivelUsuarioAction()
 	{
+		$usuario = new UsuarioModel();
+		$v_usuarios = $usuario->_list();
+		$nivel = new NivelModel();
+		$v_niveis = $nivel->_list();
+		
 		$o_nivel_usuario = new NivelUsuarioModel();
 		
 		//verificando se o id do NivelUsuario foi passado
@@ -55,7 +62,7 @@ class NivelUsuarioController
 		}
 			
 		$o_view = new View('views/manterNivelUsuario.phtml');
-		$o_view->setParams(array('o_nivel_usuario' => $o_nivel_usuario));
+		$o_view->setParams(array('o_nivel_usuario' => $o_nivel_usuario, 'v_usuarios' => $v_usuarios, 'v_niveis' => $v_niveis));
 		$o_view->showPage();
 	}
 	

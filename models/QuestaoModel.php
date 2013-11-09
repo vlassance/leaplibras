@@ -1,4 +1,6 @@
 <?php
+require_once 'models/NivelModel.php';
+require_once 'models/MidiaGestoModel.php';
 
 class QuestaoModel extends PersistModelAbstract
 {
@@ -58,6 +60,15 @@ class QuestaoModel extends PersistModelAbstract
 		return $this->in_id_nivel;
 	}
 	
+	public function getNivel()
+	{
+		if (!DataValidator::isNumeric($this->in_id_nivel) || $this->in_id_nivel <= 0)
+			return null;
+		
+		$nivel = new NivelModel();
+		return  $nivel->loadById($this->in_id_nivel);
+	}
+	
 	public function setIdMidiaGesto( $in_id_midia_gesto )
 	{
 		$this->in_id_midia_gesto = $in_id_midia_gesto;
@@ -67,6 +78,15 @@ class QuestaoModel extends PersistModelAbstract
 	public function getIdMidiaGesto()
 	{
 		return $this->in_id_midia_gesto;
+	}
+	
+	public function getMidiaGesto()
+	{
+		if (!DataValidator::isNumeric($this->in_id_midia_gesto) || $this->in_id_midia_gesto <= 0)
+			return null;
+		
+		$nivel = new MidiaGestoModel();
+		return  $nivel->loadById($this->in_id_midia_gesto);
 	}
 	
 	/**

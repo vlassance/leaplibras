@@ -1,6 +1,7 @@
 <?php
 $v_params = $this->getParams();
 $o_nivel = $v_params['o_nivel'];
+$v_niveis = $v_params['v_niveis'];
 ?>
 <div class="hero-unit">
     <h2>Nível do Jogo</h2>
@@ -13,15 +14,35 @@ $o_nivel = $v_params['o_nivel'];
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_anterior">ID Anterior</label>
+	    <label class="control-label" for="in_id_anterior">Nível Anterior</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_anterior" name='in_id_anterior' value='<?php echo $o_nivel->getIdAnterior()?>'>
+  		  <select id="in_id_anterior" name='in_id_anterior'>
+			  <option value=''> -- Nenhum -- </option>
+  			  <?php foreach($v_niveis as $nivel) {
+				  if ($o_nivel->getId() != $nivel->getId()) {
+	  				  echo "<option value='{$nivel->getId()}' ";
+	  				  if ($o_nivel->getIdAnterior() == $nivel->getId())
+	  					  echo "selected";
+	  				  echo ">{$nivel->getNome()}</option>";
+				  }
+  			  } ?>
+  		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_proximo">ID Próximo</label>
+	    <label class="control-label" for="in_id_proximo">Nível Seguinte</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_proximo" name='in_id_proximo' value='<?php echo $o_nivel->getIdProximo()?>'>
+		  <select id="in_id_proximo" name='in_id_proximo'>
+			  <option value=''> -- Nenhum -- </option>
+			  <?php foreach($v_niveis as $nivel) {
+				  if ($o_nivel->getId() != $nivel->getId()) {
+					  echo "<option value='{$nivel->getId()}' ";
+					  if ($o_nivel->getIdProximo() == $nivel->getId())
+						  echo "selected";
+					  echo ">{$nivel->getNome()}</option>";
+				  }
+			  } ?>
+		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
@@ -43,6 +64,12 @@ $o_nivel = $v_params['o_nivel'];
 	    <label class="control-label" for="in_total_questoes">Total Questões</label>
 	    <div class="controls">
 	      <input type="text" id="in_total_questoes" name='in_total_questoes' value='<?php echo $o_nivel->getTotalQuestoes()?>'>
+	    </div>
+	  </div>
+	  <div class="control-group">
+	    <label class="control-label" for="in_pct_aprovacao">Taxa de Aprovação (%)</label>
+	    <div class="controls">
+	      <input type="text" id="in_pct_aprovacao" name='in_pct_aprovacao' value='<?php echo $o_nivel->getPctAprovacao()?>'>
 	    </div>
 	  </div>
 	  <div class="control-group">

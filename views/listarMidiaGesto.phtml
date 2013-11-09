@@ -42,7 +42,7 @@ $v_midia_gestos = $v_params['v_midia_gestos'];
 						<?php echo $o_midia_gesto->getFilepath()?>
 					</td>
 					<td>
-						<?php echo $o_midia_gesto->getJson()?>
+						<?php echo $o_midia_gesto->getJson(50)?>
 					</td>
 					<td>
 						<?php echo $o_midia_gesto->getTipoMidia() ?>
@@ -60,6 +60,8 @@ $v_midia_gestos = $v_params['v_midia_gestos'];
 			?>
 		</table>
 		<br />
-		<a href='?controle=MidiaGesto&acao=manterMidiaGesto'>Nova Mídia-Gesto</a>
+		<a href='?controle=Tabela&acao=listarTabela'><i class="icon-circle-arrow-left"></i> Voltar à Lista de Tabelas</a>
+		|
+		<a href='?controle=MidiaGesto&acao=manterMidiaGesto'><i class="icon-plus-sign"></i> Nova Mídia-Gesto</a>
 	</div>
 </div>

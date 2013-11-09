@@ -1,6 +1,8 @@
 <?php
 $v_params = $this->getParams();
 $o_questao = $v_params['o_questao'];
+$v_niveis = $v_params['v_niveis'];
+$v_midia_gestos = $v_params['v_midia_gestos'];
 ?>
 <div class="hero-unit">
     <h2>Questão do Jogo</h2>
@@ -13,15 +15,29 @@ $o_questao = $v_params['o_questao'];
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_nivel">ID Nível</label>
+	    <label class="control-label" for="in_id_nivel">Nível</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_nivel" name='in_id_nivel' value='<?php echo $o_questao->getIdNivel()?>'>
+  		  <select id="in_id_nivel" name='in_id_nivel'>
+  			  <?php foreach($v_niveis as $nivel) {
+  				  echo "<option value='{$nivel->getId()}' ";
+  				  if ($o_questao->getIdNivel() == $nivel->getId())
+  					  echo "selected";
+  				  echo ">{$nivel->getNome()}</option>";
+  			  } ?>
+  		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">
-	    <label class="control-label" for="in_id_midia_gesto">ID Mídia-Gesto</label>
+	    <label class="control-label" for="in_id_midia_gesto">Mídia-Gesto</label>
 	    <div class="controls">
-	      <input type="text" id="in_id_midia_gesto" name='in_id_midia_gesto' value='<?php echo $o_questao->getIdMidiaGesto()?>'>
+		  <select id="in_id_midia_gesto" name='in_id_midia_gesto'>
+			  <?php foreach($v_midia_gestos as $midia_gesto) {
+				  echo "<option value='{$midia_gesto->getId()}' ";
+				  if ($o_questao->getIdMidiaGesto() == $midia_gesto->getId())
+					  echo "selected";
+				  echo ">{$midia_gesto->getTitulo()}</option>";
+			  } ?>
+		  </select>
 	    </div>
 	  </div>
 	  <div class="control-group">

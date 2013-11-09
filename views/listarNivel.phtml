@@ -15,10 +15,10 @@ $v_niveis = $v_params['v_niveis'];
 					Nome
 				</th>
 				<th>
-					ID Anterior
+					Nível Anterior
 				</th>
 				<th>
-					ID Próximo
+					Nível Seguinte
 				</th>
 				<th>
 					Level
@@ -28,6 +28,9 @@ $v_niveis = $v_params['v_niveis'];
 				</th>
 				<th>
 					Total Questões
+				</th>
+				<th>
+					Taxa de Aprovação (%)
 				</th>
 				<th colspan="2">
 					Ações
@@ -45,10 +48,10 @@ $v_niveis = $v_params['v_niveis'];
 						<?php echo $o_nivel->getNome()?>
 					</td>
 					<td>
-						<?php echo $o_nivel->getIdAnterior()?>
+						<?php echo $o_nivel->getNivelAnterior()->getNome()?>
 					</td>
 					<td>
-						<?php echo $o_nivel->getIdProximo()?>
+						<?php echo $o_nivel->getNivelSeguinte()->getNome()?>
 					</td>
 					<td>
 						<?php echo $o_nivel->getLevel()?>
@@ -58,6 +61,9 @@ $v_niveis = $v_params['v_niveis'];
 					</td>
 					<td>
 						<?php echo $o_nivel->getTotalQuestoes()?>
+					</td>
+					<td>
+						<?php echo $o_nivel->getPctAprovacao()?>
 					</td>
 			
 					<td align="center">
@@ -72,6 +78,8 @@ $v_niveis = $v_params['v_niveis'];
 			?>
 		</table>
 		<br />
-		<a href='?controle=Nivel&acao=manterNivel'>Novo Nível</a>
+		<a href='?controle=Tabela&acao=listarTabela'><i class="icon-circle-arrow-left"></i> Voltar à Lista de Tabelas</a>
+		|
+		<a href='?controle=Nivel&acao=manterNivel'><i class="icon-plus-sign"></i> Novo Nível</a>
 	</div>
 </div>

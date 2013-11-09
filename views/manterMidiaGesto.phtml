@@ -21,7 +21,7 @@ $o_midia_gesto = $v_params['o_midia_gesto'];
 	  <div class="control-group">
 	    <label class="control-label" for="st_json">JSON</label>
 	    <div class="controls">
-	      <input type="text" id="st_json" name='st_json' value='<?php echo $o_midia_gesto->getJson()?>'>
+			<textarea rows="4" cols="50" id="st_json" name='st_json'><?php echo $o_midia_gesto->getJson()?></textarea>
 	    </div>
 	  </div>
 	  <div class="control-group">

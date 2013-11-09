@@ -9,6 +9,7 @@ class NivelModel extends PersistModelAbstract
 	private $st_level;
 	private $bo_aleatorio;
 	private $in_total_questoes;
+	private $in_pct_aprovacao;
 	
 	function __construct()
 	{
@@ -27,6 +28,7 @@ class NivelModel extends PersistModelAbstract
 		$this->setLevel($obj->con_st_level);
 		$this->setAleatorio($bo_aleatorio);
 		$this->setTotalQuestoes($obj->con_in_total_questoes);
+		$this->setPctAprovacao($obj->con_in_pct_aprovacao);
 	}
 	
 	/**
@@ -66,6 +68,16 @@ class NivelModel extends PersistModelAbstract
 		return $this->in_id_anterior;
 	}
 	
+	public function getNivelAnterior()
+	{
+		$nivel = new NivelModel();
+		
+		if (DataValidator::isNumeric($this->in_id_anterior) && $this->in_id_anterior > 0)
+			$nivel = $nivel->loadById($this->in_id_anterior);
+		
+		return  $nivel;
+	}
+	
 	public function setIdProximo( $in_id_proximo )
 	{
 		$this->in_id_proximo = $in_id_proximo;
@@ -75,6 +87,16 @@ class NivelModel extends PersistModelAbstract
 	public function getIdProximo()
 	{
 		return $this->in_id_proximo;
+	}
+	
+	public function getNivelSeguinte()
+	{
+		$nivel = new NivelModel();
+		
+		if (DataValidator::isNumeric($this->in_id_proximo) && $this->in_id_proximo > 0)
+			$nivel = $nivel->loadById($this->in_id_proximo);
+		
+		return  $nivel;
 	}
 	
 	public function setLevel( $st_level )
@@ -108,6 +130,17 @@ class NivelModel extends PersistModelAbstract
 	public function getTotalQuestoes()
 	{
 		return $this->in_total_questoes;
+	}
+	
+	public function setPctAprovacao( $in_pct_aprovacao )
+	{
+		$this->in_pct_aprovacao = $in_pct_aprovacao;
+		return $this;
+	}
+	
+	public function getPctAprovacao()
+	{
+		return $this->in_pct_aprovacao;
 	}
 	
 	/**
@@ -162,7 +195,7 @@ class NivelModel extends PersistModelAbstract
 	* @throws PDOException
 	* @return integer
 	*/
-	public function save()
+	public function save( $update_niveis_anterior_seguinte = true )
 	{
 		$in_aleatorio = ($this->bo_aleatorio)? 1 : 0;
 		
@@ -180,7 +213,8 @@ class NivelModel extends PersistModelAbstract
 							con_in_id_proximo,
 							con_st_level,
 							con_in_aleatorio,
-							con_in_total_questoes
+							con_in_total_questoes,
+							con_in_pct_aprovacao
 						)
 						VALUES
 						(
@@ -189,7 +223,8 @@ class NivelModel extends PersistModelAbstract
 							$id_prox_sql,
 							'$this->st_level',
 							$in_aleatorio,
-							$this->in_total_questoes
+							$this->in_total_questoes,
+							$this->in_pct_aprovacao
 						);";
 		} else {
 			$st_query = "UPDATE
@@ -200,13 +235,14 @@ class NivelModel extends PersistModelAbstract
 							con_in_id_proximo = $id_prox_sql,
 							con_st_level = '$this->st_level',
 							con_in_aleatorio = $in_aleatorio,
-							con_in_total_questoes = $this->in_total_questoes
+							con_in_total_questoes = $this->in_total_questoes,
+							con_in_pct_aprovacao = $this->in_pct_aprovacao
 						WHERE
 							con_in_id = $this->in_id";
 		}
 		try
 		{	
-			if($this->o_db->exec($st_query) > 0)
+			if($this->o_db->exec($st_query) > 0) {
 				if(is_null($this->in_id))
 				{
 					
@@ -217,14 +253,35 @@ class NivelModel extends PersistModelAbstract
 					if($this->o_db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite')
 					{
 						$o_ret = $this->o_db->query('SELECT last_insert_rowid() AS com_in_id')->fetchObject();
-						return $o_ret->com_in_id;
+						$id_save = $o_ret->com_in_id;
 					}
 					else
-						return $this->o_db->lastInsertId();
+						$id_save = $this->o_db->lastInsertId();
 					
 				}
 				else
-					return $this->in_id;
+					$id_save = $this->in_id;
+				
+				if ($update_niveis_anterior_seguinte) {
+					// Update Nivel anterior
+					if ($id_ant_sql != "NULL") {
+						$nivel_ant = new NivelModel();
+						$nivel_ant = $nivel_ant->loadById($id_ant_sql);
+						$nivel_ant->setIdProximo($id_save);
+						$nivel_ant->save(false);
+					}
+				
+					// Update Nivel seguinte
+					if ($id_prox_sql != "NULL") {
+						$nivel_prox = new NivelModel();
+						$nivel_prox = $nivel_prox->loadById($id_prox_sql);
+						$nivel_prox->setIdAnterior($id_save);
+						$nivel_prox->save(false);
+					}
+				}
+				
+				return $id_save;
+			}
 		}
 		catch (PDOException $e)
 		{
@@ -240,6 +297,16 @@ class NivelModel extends PersistModelAbstract
 	{
 		if(!is_null($this->in_id))
 		{
+			$st_query = "UPDATE tbl_nivel
+						 SET con_in_id_anterior = NULL
+						 WHERE con_in_id_anterior = $this->in_id";
+			$this->o_db->exec($st_query);
+			
+			$st_query = "UPDATE tbl_nivel
+						 SET con_in_id_proximo = NULL
+						 WHERE con_in_id_proximo = $this->in_id";
+			$this->o_db->exec($st_query);
+			
 			$st_query = "DELETE FROM
 							tbl_nivel
 						WHERE con_in_id = $this->in_id";
@@ -274,6 +341,7 @@ class NivelModel extends PersistModelAbstract
 						con_st_level CHAR(200),
 						con_in_aleatorio INTEGER,
 						con_in_total_questoes INTEGER,
+						con_in_pct_aprovacao INTEGER,
 						PRIMARY KEY(con_in_id)
 					)";
 
