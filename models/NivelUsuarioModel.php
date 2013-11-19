@@ -129,10 +129,16 @@ class NivelUsuarioModel extends PersistModelAbstract
 		return $this;
 	}
 
-	public function loadByIdUsuario( $in_id_usuario )
+	public function loadMaxLevelByIdUsuario( $in_id_usuario )
 	{
 		$v_nivel_usuarios = array();
-		$st_query = "SELECT * FROM tbl_nivel_usuario WHERE con_in_id_usuario = $in_id_usuario;";
+		$st_query = "SELECT nu.*
+					 FROM tbl_nivel_usuario nu
+					 JOIN tbl_nivel n
+					 ON nu.con_in_id_nivel = n.con_in_id
+					 WHERE nu.con_in_id_usuario = $in_id_usuario
+					 ORDER BY n.con_st_level DESC 
+					 LIMIT 1;";
 		$o_data = $this->o_db->query($st_query);
 		$o_ret = $o_data->fetchObject();
 		$this->setParams($o_ret);		

@@ -47,24 +47,29 @@ class JogoController
 
 	public function setJogo(){
 
-		$uid=1;
+		$uid=2;
 		$usuario = new UsuarioModel();
 		$usuario = $usuario->loadbyID($uid);
 
 		$this->setUsuario($usuario);
 		
 		$nivelusuario = new NivelUsuarioModel();
-		$listunivel = $nivelusuario->loadByIdUsuario($uid);
+		$nivelusuario = $nivelusuario->loadMaxLevelByIdUsuario($uid);
 
-		$this->setListunievl($listunivel);
+		$maxscore = $nivelusuario->getMaxScore();
+		$totalquestoes = $nivelusuario->getNivel()->getTotalQuestoes();
 
+		$maxscorepercent = 100 * $maxscore / $totalquestoes;
+		echo $maxscorepercent;
+
+		$threshold = $nivelusuario->getNivel();
 	}
 
 	public function setUsuario($usuario){
 		$this->usuario = $usuario;
 	}
 
-	public function setListunievl($listunivel){
+	public function setListunivel($listunivel){
 		$this->listunivel = $listunivel;
 	}
 }
