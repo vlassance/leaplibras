@@ -19,11 +19,11 @@ class JogoController
 
 	private $usuario;
 
-	//Lista dos níveis do usuário
-	private $listunivel;
+	//Último nível jogado pelo usuário
+	private $nivelusuario;
 
-	//Último nível do usuário
-	private $univel;
+	// Porcentagem atingida no último nível jogado pelo usuário
+	private $maxscorepercent;
 
 	/**
 	* Ação que deverá ser executada quando 
@@ -50,27 +50,28 @@ class JogoController
 		$uid=2;
 		$usuario = new UsuarioModel();
 		$usuario = $usuario->loadbyID($uid);
-
-		$this->setUsuario($usuario);
 		
 		$nivelusuario = new NivelUsuarioModel();
+		$this->setNivelUsuario($nivelusuario);
 		$nivelusuario = $nivelusuario->loadMaxLevelByIdUsuario($uid);
 
 		$maxscore = $nivelusuario->getMaxScore();
 		$totalquestoes = $nivelusuario->getNivel()->getTotalQuestoes();
 
 		$maxscorepercent = 100 * $maxscore / $totalquestoes;
-		echo $maxscorepercent;
+		
+		$threshold = $nivelusuario->getNivel()->getPctAprovacao();
 
-		$threshold = $nivelusuario->getNivel();
+		$this->setUsuario($usuario);
+		$this->setNivelUsuario($nivelusuario);
 	}
 
 	public function setUsuario($usuario){
 		$this->usuario = $usuario;
 	}
 
-	public function setListunivel($listunivel){
-		$this->listunivel = $listunivel;
+	public function setNivelUsuario($nivelusuario){
+		$this->nivelusuario = $nivelusuario;
 	}
 }
 ?>
