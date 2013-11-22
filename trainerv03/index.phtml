@@ -1,6 +1,6 @@
 <?php
 $v_params = $this->getParams();
-$v_gestos = $v_params['v_gestos'];
+$v_midia_gestos = $v_params['v_midia_gestos'];
 ?>
 <!doctype html>
 
@@ -113,18 +113,18 @@ $v_gestos = $v_params['v_gestos'];
 
         <form method="post" id="form-gesto">
 
-            <input type="hidden" name="st_nome" value="" />
+            <input type="hidden" name="st_titulo" value="" />
             <input type="hidden" name="st_json" value="" />
-            <input type="hidden" name="controle" value="Gesto" />
-            <input type="hidden" name="acao" value="manterGesto" />
-            <input type="hidden" name="in_ges" value="" />
+            <input type="hidden" name="controle" value="MidiaGesto" />
+            <input type="hidden" name="acao" value="leapTrainerManterMidiaGesto" />
+            <input type="hidden" name="in_id" value="" />
 
             <?php
-            foreach($v_gestos AS $o_gesto)
+            foreach($v_midia_gestos AS $o_midia_gesto)
             {
             ?>
-                <input type="hidden" name="gestoDB" value='<?php echo $o_gesto->getJson(); ?>' />
-                <input type="hidden" name="gestoDB<?php echo $o_gesto->getNome(); ?>" value="<?php echo $o_gesto->getId(); ?>" />
+                <input type="hidden" name="gestoDB" value='<?php echo $o_midia_gesto->getJson(); ?>' />
+                <input type="hidden" name="gestoDB<?php echo $o_midia_gesto->getTitulo(); ?>" value="<?php echo $o_midia_gesto->getId(); ?>" />
 
             <?php
             }

@@ -384,7 +384,7 @@ jQuery(document).ready(function ($) {
      */
 	retrainButton.click(function () {
 	    closeExportOverlay();
-	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+	    $('[name=in_id]').val($('[name=gestoDB' + exportingName.html() + ']').val());
 	    trainer.retrain(exportingName.html());
 	});
 
@@ -395,9 +395,9 @@ jQuery(document).ready(function ($) {
 	deleteButton.click(function () {
 
 
-	    $('[name=acao]').val("apagarGesto");
+	    $('[name=acao]').val("leapTrainerApagarMidiaGesto");
 		
-	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+	    $('[name=in_id]').val($('[name=gestoDB' + exportingName.html() + ']').val());
 
 	    $('#form-gesto').submit();
 
@@ -761,7 +761,7 @@ jQuery(document).ready(function ($) {
 		
 		setGestureScale(gestureName, 100, green, green);
 
-		$('[name=st_nome]').val(gestureName);
+		$('[name=st_titulo]').val(gestureName);
 		$('[name=st_json]').val(trainer.toJSON(gestureName));
 
 		$('#form-gesto').submit();
