@@ -5,6 +5,12 @@ function __autoload($st_class)
 		require_once 'lib/'.$st_class.'.php';
 }
 
+session_start();
+
+require_once 'models/UsuarioModel.php';
+require_once 'models/NivelUsuarioModel.php';
+
+
 
 /**
 * @package Exemplo simples com MVC
@@ -35,6 +41,17 @@ class Application
 	* @var string
 	*/
 	protected $st_action;
+
+	private $usuario;
+
+	//Último nível jogado pelo usuário
+	private $nivelusuario;
+
+	// Máximo level que o usuário pode jogar
+	private $levelusuario;
+
+	// Porcentagem atingida no último nível jogado pelo usuário
+	private $maxscorepercent;
 	
 	
 	/**
@@ -65,6 +82,18 @@ class Application
 	*/
 	public function dispatch()
 	{
+
+		//TODO: função que verifica se usuário está logado
+		$uid=2;
+
+		$this->init($uid);
+
+		$_SESSION['usuario'] = $this->getUsuario()->getNome();
+
+		$_SESSION['idusuario'] = $uid;
+
+		$_SESSION['levelusuario'] = $this->getLevelUsuario();
+
 		$this->loadRoute();
 		
 		//verificando se o arquivo de controle existe
@@ -96,6 +125,58 @@ class Application
 	static function redirect( $st_uri )
 	{
 		header("Location: $st_uri");
+	}
+
+	public function init($uid){
+
+		$usuario = new UsuarioModel();
+		$usuario = $usuario->loadbyID($uid);
+		
+
+		// Último nível jogado pelo usuário
+		$nivelusuario = new NivelUsuarioModel();
+		$nivelusuario = $nivelusuario->loadMaxLevelByIdUsuario($uid);
+
+		$maxscore = $nivelusuario->getMaxScore();
+
+		$totalquestoes = $nivelusuario->getNivel()->getTotalQuestoes();
+
+		$maxscorepercent = 100 * $maxscore / $totalquestoes;
+		
+		$threshold = $nivelusuario->getNivel()->getPctAprovacao();
+
+		$levelusuario = $nivelusuario->getNivel()->getLevel();
+
+		if($maxscorepercent >= $threshold)
+			$levelusuario++;			
+
+		$this->setUsuario($usuario);
+		$this->setNivelUsuario($nivelusuario);
+		$this->setLevelUsuario($levelusuario);
+	}
+
+	public function setUsuario($usuario){
+		$this->usuario = $usuario;
+	}
+
+	public function setNivelUsuario($nivelusuario){
+		$this->nivelusuario = $nivelusuario;
+	}
+
+	public function setLevelUsuario($levelusuario){
+		$this->levelusuario = $levelusuario;
+	}
+
+	public function getUsuario(){
+		return $this->usuario;
+	}
+
+	public function getNivelUsuario(){
+		return $this->nivelusuario;
+	}
+
+	public function getLevelUsuario(){
+		return $this->levelusuario;
 	}
 }
 ?>

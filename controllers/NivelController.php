@@ -1,6 +1,6 @@
 ﻿<?php
 require_once 'models/NivelModel.php';
-
+if ( ! session_id() ) @ session_start();
 class NivelController
 {
 

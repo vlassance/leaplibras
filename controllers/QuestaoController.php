@@ -2,7 +2,7 @@
 require_once 'models/QuestaoModel.php';
 require_once 'models/NivelModel.php';
 require_once 'models/MidiaGestoModel.php';
-
+if ( ! session_id() ) @ session_start();
 class QuestaoController
 {
 

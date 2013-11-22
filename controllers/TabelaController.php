@@ -1,6 +1,6 @@
 ﻿<?php
 require_once 'models/TabelaModel.php';
-
+if ( ! session_id() ) @ session_start();
 class TabelaController
 {
 	/**

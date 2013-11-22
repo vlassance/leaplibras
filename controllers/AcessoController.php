@@ -1,5 +1,6 @@
 ﻿<?php
 require_once 'models/AcessoModel.php';
+if ( ! session_id() ) @ session_start();
 
 class AcessoController
 {

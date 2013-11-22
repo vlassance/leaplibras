@@ -1,4 +1,5 @@
 <?php
+if ( ! session_id() ) @ session_start();
 /**
 * @package Exemplo simples com MVC
 * @author Kenji
@@ -20,6 +21,7 @@ class HomeController
 	*/
 	public function listarHomeAction()
 	{
+
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de contatos
 		$o_view = new View('views/listarHome.phtml');

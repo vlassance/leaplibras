@@ -49,6 +49,18 @@
           <a class="brand" href='?controle=Home&acao=listarHome'>Leap-LIBRAS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
+              <?php
+                if(isset($_SESSION['usuario'])){
+                  ?>
+                  <li class="active"><span class="brand">
+                  <?php
+                  echo "Olá, ";
+                  echo $_SESSION['usuario'];
+                  ?>
+                  </span></li>
+                  <?php
+                }
+              ?>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sobre Nós <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -73,11 +85,11 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jogar <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li class="nav-header">níveis do jogo</li>
-                  <li><a href='?controle=Jogo&acao=listarJogo'>Nível 1</a></li>
+                  <li><a href='?controle=Jogo&acao=listarJogo&level=1'>Nível 1 </a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Nível 2</i></a></li>
+                  <li <?php if($_SESSION['levelusuario'] < 2) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=2' >Nível 2</a></li>
                   <li class="divider"></li>
-                  <li><a href="#">Nível 3</a></li>
+                  <li <?php if($_SESSION['levelusuario'] < 3) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=3' >Nível 3</a></li>
                 </ul>
               </li>
               <li class="dropdown">

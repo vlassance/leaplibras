@@ -1,6 +1,6 @@
 ﻿<?php
 require_once 'models/GestoModel.php';
-
+if ( ! session_id() ) @ session_start();
 /**
  * 
  * Responsável por gerenciar o fluxo de dados entre
