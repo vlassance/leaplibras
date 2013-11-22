@@ -511,7 +511,7 @@ jQuery(document).ready(function ($) {
 	 */
 	creationForm.submit(function() { 
 
-		var name = newGestureName.val().trim();
+		var name = newGestureName.val().replace(/\s/g, "");
 
 		/*
 		 * If the input name is empty, the default on the box, or already exists in the list of existing gestures, we just do nothing and return.

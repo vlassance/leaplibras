@@ -100,7 +100,7 @@ class MidiaGestoController
 			
 		if(count($_POST) > 0)
 		{
-			$o_midia_gesto->setTitulo(DataFilter::cleanString($_POST['st_titulo']));
+			$o_midia_gesto->setTitulo(str_replace(" ","",DataFilter::cleanString($_POST['st_titulo'])));
 			$o_midia_gesto->setJson($_POST['st_json']);
 			
 			//salvando dados e redirecionando para a lista de MidiaGestos
