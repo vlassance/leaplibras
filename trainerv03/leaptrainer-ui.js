@@ -83,7 +83,8 @@ jQuery(document).ready(function ($) {
 		exportingName		= $('#exporting-gesture-name'),
 		exportingSampleText = $('#exporting-gesture-sample-text'),
 		exportText 			= $('#export-text'),
-		retrainButton 		= $('#retrain-gesture'),
+		retrainButton       = $('#retrain-gesture'),
+        deleteButton        = $('#delete-gesture'),
 		closeOverlayButton 	= $('#close-overlay'),
 		outputText			= $('#output-text'),
 		optionsButton		= $('#options-button'),
@@ -381,7 +382,27 @@ jQuery(document).ready(function ($) {
     /*
      * When the retrain button is clicked the overlay closes and the leaptrainer retrain() function is called for the selected gesture
      */
-    retrainButton.click(function() { closeExportOverlay(); trainer.retrain(exportingName.html()); });
+	retrainButton.click(function () {
+	    closeExportOverlay();
+	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+	    trainer.retrain(exportingName.html());
+	});
+
+
+    /*
+     * Deletes a given gesture trained
+     */
+	deleteButton.click(function () {
+
+
+	    $('[name=acao]').val("apagarGesto");
+		
+	    $('[name=in_ges]').val($('[name=gestoDB' + exportingName.html() + ']').val());
+
+	    $('#form-gesto').submit();
+
+
+	});
     
     closeOverlayButton.click(closeExportOverlay); // Clicking on the close button closes the overlay
 
@@ -633,8 +654,8 @@ jQuery(document).ready(function ($) {
 		 * Since a new gesture is being created, we need to add an entry in the gesture list
 		 */
 		var gesture = $('<li' + (trainingSkipped ? '' : ' class="selected"') +'><div class="progress"><span class="gesture-name">' + gestureName + 
-						'</span><img class="arrow" src="./trainer-ui/images/training-arrow.png" /></div>' + 
-						'<img class="export-arrow" src="./trainer-ui/images/export-arrow.png" />' + 
+						'</span><img class="arrow" src="trainerv03/trainer-ui/images/training-arrow.png" /></div>' + 
+						'<img class="export-arrow" src="trainerv03/trainer-ui/images/export-arrow.png" />' +
 						'<span class="label">&nbsp;</span></li>');
 
 		gesture.click(function() { openExportOverlay(gesture, gestureName); }); //Clicking on the gesture will open the export/retrain overlay
@@ -739,6 +760,12 @@ jQuery(document).ready(function ($) {
 		setGestureLabel(gestureName, 'Learned');
 		
 		setGestureScale(gestureName, 100, green, green);
+
+		$('[name=st_nome]').val(gestureName);
+		$('[name=st_json]').val(trainer.toJSON(gestureName));
+
+		$('#form-gesto').submit();
+
 	});
 
 	/*
@@ -1150,4 +1177,9 @@ jQuery(document).ready(function ($) {
 	 * And finally we connect to the device
 	 */
 	controller.connect();
+
+	$('input[name=gestoDB]').each(function () {
+	    trainer.fromJSON($(this).val());
+
+	});
 });

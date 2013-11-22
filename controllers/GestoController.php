@@ -32,7 +32,7 @@ class GestoController
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de Gestos
 		//$o_view = new View('trainer/listarGesto.phtml');
-		$o_view = new View('trainer/index.phtml');
+		$o_view = new View('trainerv03/index.phtml');
 		
 		//Passando os dados do Gesto para a View
 		$o_view->setParams(array('v_gestos' => $v_gestos));
@@ -55,7 +55,7 @@ class GestoController
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de Gestos
 		$o_view = new View('trainer/listarGesto.phtml');
-		//$o_view = new View('trainer/index.phtml');
+		//$o_view = new View('trainerv03/index.phtml');
 		
 		//Passando os dados do Gesto para a View
 		$o_view->setParams(array('v_gestos' => $v_gestos));

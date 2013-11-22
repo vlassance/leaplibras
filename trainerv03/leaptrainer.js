@@ -885,7 +885,7 @@ LeapTrainer.Controller = Class.extend({
 	 * @param json
 	 * @returns {Object}
 	 */
-	fromJSON: function(json) {
+	fromJSON: function (json) {
 
 		var imp = JSON.parse(json);
 		
