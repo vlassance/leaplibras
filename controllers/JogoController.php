@@ -1,4 +1,5 @@
 <?php
+if ( ! session_id() ) @ session_start();
 /**
 * @package Exemplo simples com MVC
 * @author Kenji
@@ -11,20 +12,8 @@
 * especificado nenhum outro
 */
 
-require_once 'models/UsuarioModel.php';
-require_once 'models/NivelUsuarioModel.php';
-
 class JogoController
 {
-
-	private $usuario;
-
-	//Último nível jogado pelo usuário
-	private $nivelusuario;
-
-	// Porcentagem atingida no último nível jogado pelo usuário
-	private $maxscorepercent;
-
 	/**
 	* Ação que deverá ser executada quando 
 	* nenhuma outra for especificada, do mesmo jeito que o
@@ -32,9 +21,8 @@ class JogoController
 	* referenciado
 	*/
 	public function listarJogoAction()
-	{	
-		$this->setJogo();
-
+	{
+		$_SESSION['level'] = $_GET['level'];
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de contatos
 		$o_view = new View('views/listarJogo.phtml');
@@ -45,33 +33,6 @@ class JogoController
 		$o_view->showPage();
 	}
 
-	public function setJogo(){
-
-		$uid=2;
-		$usuario = new UsuarioModel();
-		$usuario = $usuario->loadbyID($uid);
-		
-		$nivelusuario = new NivelUsuarioModel();
-		$this->setNivelUsuario($nivelusuario);
-		$nivelusuario = $nivelusuario->loadMaxLevelByIdUsuario($uid);
-
-		$maxscore = $nivelusuario->getMaxScore();
-		$totalquestoes = $nivelusuario->getNivel()->getTotalQuestoes();
-
-		$maxscorepercent = 100 * $maxscore / $totalquestoes;
-		
-		$threshold = $nivelusuario->getNivel()->getPctAprovacao();
-
-		$this->setUsuario($usuario);
-		$this->setNivelUsuario($nivelusuario);
-	}
-
-	public function setUsuario($usuario){
-		$this->usuario = $usuario;
-	}
-
-	public function setNivelUsuario($nivelusuario){
-		$this->nivelusuario = $nivelusuario;
-	}
+	
 }
 ?>

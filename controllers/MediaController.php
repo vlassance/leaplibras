@@ -1,4 +1,5 @@
 <?php
+if ( ! session_id() ) @ session_start();
 /**
 * @package Exemplo simples com MVC
 * @author DigitalDev

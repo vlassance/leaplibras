@@ -1,4 +1,5 @@
 <?php
+if ( ! session_id() ) @ session_start();
 /**
 * @package Exemplo simples com MVC
 * @author DigitalDev
@@ -10,6 +11,7 @@
 * Controlador que deverá ser chamado quando não for
 * especificado nenhum outro
 */
+
 class IndexController
 {
 	/**
@@ -20,6 +22,7 @@ class IndexController
 	*/
 	public function indexAction()
 	{
+
 		//redirecionando para a pagina de lista de contatos
 		header('Location: ?controle=Home&acao=listarHome');
 	}
