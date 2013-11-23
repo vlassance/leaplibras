@@ -84,7 +84,7 @@ class Application
 	{
 
 		//TODO: função que verifica se usuário está logado
-		$uid=2;
+		$uid=1;
 
 		$this->init($uid);
 

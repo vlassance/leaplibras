@@ -10,12 +10,11 @@
 
         
           <div class="row-fluid">
+            <?php if($_SESSION['level'] == 1){?>
             <div class="span4 text-left">
               
               <!-- Button to trigger modal -->
               <a href="#modalVideo" role="button" class="btn btn-primary btn-large" data-toggle="modal">Aprenda o gesto <i class="icon-facetime-video icon-white"></i></a>
-
-              <?php if($_SESSION['level'] == 1){?>
               <!-- Modal -->
               <div id="modalVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
                 <div class="modal-header">
@@ -30,7 +29,12 @@
                 </div>
               </div>
             </div>
+            <?php } else{ ?>
+              <div class="span4 text-left">
+                <p class="btn-primary btn-large">Aprenda o gesto <i class="icon-facetime-video icon-white"></i></p>
+              </div>
             <?php } ?>
+
 
             <div class="span4 text-center">
               <p class="btn-info btn-large">Pontuação: <?php echo '10%' ?></p>
