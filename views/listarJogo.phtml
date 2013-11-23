@@ -15,7 +15,7 @@
               <!-- Button to trigger modal -->
               <a href="#modalVideo" role="button" class="btn btn-primary btn-large" data-toggle="modal">Aprenda o gesto <i class="icon-facetime-video icon-white"></i></a>
 
-              <?php if(true){?>
+              <?php if($_SESSION['level'] == 1){?>
               <!-- Modal -->
               <div id="modalVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
                 <div class="modal-header">
