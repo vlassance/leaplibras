@@ -30,7 +30,7 @@
 
   <body>
   <div id="fb-root"></div>
-  <script>
+  <script>  
   	window.fbAsyncInit = function() {
 	    FB.init({
 	      appId      : '540608949358823',
@@ -40,76 +40,27 @@
 		  oauth		 : true
 	    });
 
-	    // Here we subscribe to the auth.authResponseChange JavaScript event. This event is fired
-	    // for any authentication related change, such as login, logout or session refresh. This means that
-	    // whenever someone who was previously logged out tries to log in again, the correct case below 
-	    // will be handled. 
-	    FB.Event.subscribe('auth.authResponseChange', function(response) {
-	      // Here we specify what we do with the response anytime this event occurs. 
-	      if (response.status === 'connected') {
-	        // The response object is returned with a status field that lets the app know the current
-	        // login status of the person. In this case, we're handling the situation where they 
-	        // have logged in to the app.
-	        armazenaUsuario();
-	      } else if (response.status === 'not_authorized') {
-	        // In this case, the person is logged into Facebook, but not into the app, so we call
-	        // FB.login() to prompt them to do so. 
-	        // In real-life usage, you wouldn't want to immediately prompt someone to login 
-	        // like this, for two reasons:
-	        // (1) JavaScript created popup windows are blocked by most browsers unless they 
-	        // result from direct interaction from people using the app (such as a mouse click)
-	        // (2) it is a bad experience to be continually prompted to login upon page load.
-			FB.login();
-	      } else {
-	        // In this case, the person is not logged into Facebook, so we call the login() 
-	        // function to prompt them to do so. Note that at this stage there is no indication
-	        // of whether they are logged into the app. If they aren't then they'll see the Login
-	        // dialog right after they log in to Facebook. 
-	        // The same caveats as above apply to the FB.login() call here.
-			FB.login();
-	      }
-	    });
+        FB.Event.subscribe('auth.login', function(response) {
+		  console.log('login');
+          window.location.reload();
+        });
+        FB.Event.subscribe('auth.logout', function(response) {
+		  console.log('logout');
+          window.location.href = 'https://leaplibras.herokuapp.com';
+        });
     };
 
-    // Load the SDK asynchronously
-    (function(d){
-     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
-     if (d.getElementById(id)) {return;}
-     js = d.createElement('script'); js.id = id; js.async = true;
-     js.src = "//connect.facebook.net/pt_BR/all.js";
-     ref.parentNode.insertBefore(js, ref);
-    }(document));
-
-	function getAge(dateString) {
-	  var today = new Date();
-	  var birthDate = new Date(dateString);
-	  var age = today.getFullYear() - birthDate.getFullYear();
-	  var m = today.getMonth() - birthDate.getMonth();
-	  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
-	    age--;
-	  }
-	  return age;
-	};
-
-	// Here we run a very simple test of the Graph API after login is successful. 
-	// This testAPI() function is only called in those cases. 
-	function armazenaUsuario() {
-	  FB.api('/me', function(response) {
-		var nome = response.name,
-			idade = getAge(response.birthday),
-			genero = response.gender.charAt(0).toUpperCase(),
-			email = response.email,
-			fbid = response.id,
-			id_nivel_acesso = 3;
-		  
-		console.log('Nome: ' + nome);
-		console.log('Idade: ' + idade);
-		console.log('Gênero: ' + genero);
-		console.log('E-mail: ' + email);
-		console.log('FBID: ' + fbid);
-		console.log('Nível de acesso: ' + id_nivel_acesso);
-	  });
-	};
+	// Load the SDK's source Asynchronously
+	  // Note that the debug version is being actively developed and might 
+	  // contain some type checks that are overly strict. 
+	  // Please report such bugs using the bugs tool.
+	  (function(d, debug){
+	     var js, id = 'facebook-jssdk', ref = d.getElementsByTagName('script')[0];
+	     if (d.getElementById(id)) {return;}
+	     js = d.createElement('script'); js.id = id; js.async = true;
+	     js.src = "//connect.facebook.net/en_US/all" + (debug ? "/debug" : "") + ".js";
+	     ref.parentNode.insertBefore(js, ref);
+	   }(document, /*debug*/ false));
   </script>
 
     <div class="navbar navbar-fixed-top">
@@ -123,18 +74,11 @@
           <a class="brand" href='?controle=Home&acao=listarHome'>Leap-LIBRAS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <!-- <?php
-                if(isset($_SESSION['usuario'])){
-                  ?>
-                  <li class="active"><span class="brand">
-                  <?php
-                  echo "Olá, ";
-                  echo $_SESSION['usuario'];
-                  ?>
-                  </span></li>
-                  <?php
-                }
-              ?> -->
+				<!-- ><?php if(isset($_SESSION['nome_usuario'])) { ?>
+					<li class="active">
+						<span class="brand"><?php echo "Olá, " . $_SESSION['nome_usuario']; ?></span>
+					</li>
+				<?php } ?> -->
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Sobre Nós <b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -159,26 +103,42 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jogar <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li class="nav-header">níveis do jogo</li>
-                  <li><a href='?controle=Jogo&acao=listarJogo&level=1'>Nível 1 </a></li>
+                  <li <?php if($_SESSION['level_usuario'] < 1) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=1'>Nível 1 </a></li>
                   <li class="divider"></li>
-                  <li <?php if($_SESSION['levelusuario'] < 2) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=2' >Nível 2</a></li>
+                  <li <?php if($_SESSION['level_usuario'] < 2) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=2' >Nível 2</a></li>
                   <li class="divider"></li>
-                  <li <?php if($_SESSION['levelusuario'] < 3) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=3' >Nível 3</a></li>
+                  <li <?php if($_SESSION['level_usuario'] < 3) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=3' >Nível 3</a></li>
                 </ul>
               </li>
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gerenciar <b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a target="_blank" href='?controle=MidiaGesto&acao=leapTrainerIndex'>Gestos</a></li>
-                  <li class="divider"></li>
-                  <li><a href='?controle=Usuario&acao=listarUsuario'>Acessos dos Usuários</a></li>
-                  <li class="divider"></li>
-                  <li><a href='?controle=Tabela&acao=listarTabela'>Tabelas</a></li>
-                </ul>
-              </li>
+			  <?php
+			  	if(isset($_SESSION['id_usuario']) && ((int)$_SESSION['id_usuario']) > 0) {
+					$usuario_model = new UsuarioModel();
+					$nivel_acesso = $usuario_model->loadById((int)$_SESSION['id_usuario'])->getNivelAcesso();
+					if ($nivel_acesso->getAdminAcessos() || $nivel_acesso->getAdminGestos()) {
+			  ?>
+	              <li class="dropdown">
+	                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gerenciar <b class="caret"></b></a>
+	                <ul class="dropdown-menu">
+						<?php if ($nivel_acesso->getAdminGestos()) { ?>
+	                  		<li><a target="_blank" href='?controle=MidiaGesto&acao=leapTrainerIndex'>Gestos</a></li>
+						<?php } ?>
+						<?php if ($nivel_acesso->getAdminGestos() && $nivel_acesso->getAdminAcessos()) { ?>
+							<li class="divider"></li>
+						<?php } ?>
+						<?php if ($nivel_acesso->getAdminAcessos()) { ?>
+	                  		<li><a href='?controle=Usuario&acao=listarUsuario'>Acessos dos Usuários</a></li>
+	                  	    <li class="divider"></li>
+	                  	    <li><a href='?controle=Tabela&acao=listarTabela'>Tabelas</a></li>
+						<?php } ?>
+	                </ul>
+	              </li>
+			  <?php
+		  			}
+				}
+			  ?>
             </ul>
             <form class="navbar-form pull-right">
-            	<fb:login-button show-faces="true" scope="email,user_birthday"></fb:login-button>
+				<fb:login-button show-faces="true" scope="email,user_birthday" />
             </form>
           </div><!--/.nav-collapse -->
         </div>

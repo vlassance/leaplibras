@@ -9,7 +9,7 @@ session_start();
 
 require_once 'models/UsuarioModel.php';
 require_once 'models/NivelUsuarioModel.php';
-
+require_once("facebook.php");
 
 
 /**
@@ -41,17 +41,10 @@ class Application
 	* @var string
 	*/
 	protected $st_action;
-
+	
 	private $usuario;
 
-	//Último nível jogado pelo usuário
-	private $nivelusuario;
-
-	// Máximo level que o usuário pode jogar
-	private $levelusuario;
-
-	// Porcentagem atingida no último nível jogado pelo usuário
-	private $maxscorepercent;
+	private $level_usuario;
 	
 	
 	/**
@@ -83,16 +76,15 @@ class Application
 	public function dispatch()
 	{
 
-		//TODO: função que verifica se usuário está logado
-		$uid=1;
-
-		$this->init($uid);
-
-		$_SESSION['usuario'] = $this->getUsuario()->getNome();
-
-		$_SESSION['idusuario'] = $uid;
-
-		$_SESSION['levelusuario'] = $this->getLevelUsuario();
+		if ($this->obtainUserInfo()) {
+			$_SESSION['nome_usuario'] = $this->usuario->getNome();
+			$_SESSION['id_usuario'] = $this->usuario->getId();
+			$_SESSION['level_usuario'] = $this->level_usuario;
+		} else {
+			$_SESSION['nome_usuario'] = "Visitante";
+			$_SESSION['id_usuario'] = 0;
+			$_SESSION['level_usuario'] = 0;
+		}
 
 		$this->loadRoute();
 		
@@ -127,56 +119,97 @@ class Application
 		header("Location: $st_uri");
 	}
 
-	public function init($uid){
+	public function obtainUserInfo(){
 
+		$this->usuario = null;
+		$this->level_usuario = null;
+		
+	    $facebook = $this->getFb();
+		// Tenta obter informações do Fb sobre o usuário
+		try {
+			$user_profile = $facebook->api('/me','GET');
+		} catch(FacebookApiException $e) {
+			return false;
+		}
+		$fbid = $user_profile['id'];
+		
+		// Se não está logado, deve ficar como visitante
+		if(!$user_profile || !$fbid)
+			return false;
+		
 		$usuario = new UsuarioModel();
-		$usuario = $usuario->loadbyID($uid);
+		$usuario = $usuario->loadbyFbid($fbid);
 		
+		// Se não está cadastrado, cadastra usuário
+		if (!($usuario && $usuario->getId())) {
+			if (array_key_exists('email', $user_profile) && array_key_exists('birthday', $user_profile))
+				$usuario = $this->saveUser($user_profile);
+			else
+				return false;
+		}
+		
+		// Usuário conectado e já possui cadastro
+		if ($usuario && $usuario->getId()) {
+			$this->usuario = $usuario;
+			$this->level_usuario = $this->calcLevelUsuario($usuario->getId());
+			
+			return true;
+		}
 
+		return false;		
+	}
+
+	private function getFb() {
+	    $config = array(
+	        'appId' => '540608949358823',
+	        'secret' => '1c574ed1666fcb5251d724eb0c064204',
+	        'fileUpload' => false, // optional
+	        'allowSignedRequest' => false, // optional, but should be set to false for non-canvas apps
+	    );
+
+	    return new Facebook($config);
+	}
+
+	private function calcLevelUsuario($id_usuario) {
 		// Último nível jogado pelo usuário
-		$nivelusuario = new NivelUsuarioModel();
-		$nivelusuario = $nivelusuario->loadMaxLevelByIdUsuario($uid);
-
-		$maxscore = $nivelusuario->getMaxScore();
-
-		$totalquestoes = $nivelusuario->getNivel()->getTotalQuestoes();
-
-		$maxscorepercent = 100 * $maxscore / $totalquestoes;
+		$nivel_usuario = new NivelUsuarioModel();
+		$nivel_usuario = $nivel_usuario->loadMaxLevelByIdUsuario($id_usuario);
 		
-		$threshold = $nivelusuario->getNivel()->getPctAprovacao();
+		if (!$nivel_usuario->getId())
+			return 1;
 
-		$levelusuario = $nivelusuario->getNivel()->getLevel();
+		$max_score = $nivel_usuario->getMaxScore();
 
-		if($maxscorepercent >= $threshold)
-			$levelusuario++;			
+		$total_questoes = $nivel_usuario->getNivel()->getTotalQuestoes();
 
-		$this->setUsuario($usuario);
-		$this->setNivelUsuario($nivelusuario);
-		$this->setLevelUsuario($levelusuario);
+		$max_score_percent = 100 * $max_score / $total_questoes;
+	
+		$threshold = $nivel_usuario->getNivel()->getPctAprovacao();
+
+		$level_usuario = $nivel_usuario->getNivel()->getLevel();
+
+		if($max_score_percent >= $threshold)
+			$level_usuario++;
+		
+		return $level_usuario;
 	}
 
-	public function setUsuario($usuario){
-		$this->usuario = $usuario;
-	}
-
-	public function setNivelUsuario($nivelusuario){
-		$this->nivelusuario = $nivelusuario;
-	}
-
-	public function setLevelUsuario($levelusuario){
-		$this->levelusuario = $levelusuario;
-	}
-
-	public function getUsuario(){
-		return $this->usuario;
-	}
-
-	public function getNivelUsuario(){
-		return $this->nivelusuario;
-	}
-
-	public function getLevelUsuario(){
-		return $this->levelusuario;
+	private function saveUser($user_profile) {
+		$usuario = new UsuarioModel();
+		
+		$usuario->setNome($user_profile['name']);
+		$tz  = new DateTimeZone('America/Sao_Paulo');
+		$birthday = DateTime::createFromFormat('m/d/Y', $user_profile['birthday'], $tz)->format('Y-m-d');
+		$usuario->setDataNascimento($birthday);
+		$usuario->setGenero(strtoupper($user_profile['gender'][0]));
+		$usuario->setEmail($user_profile['email']);
+		$usuario->setFbid($user_profile['id']);
+		$acesso_user = new AcessoModel();
+		$acesso_user = $acesso_user->loadUserAccess();
+		$usuario->setIdNivelAcesso($acesso_user->getId());
+		$usuario->save();
+		
+		return $usuario;
 	}
 }
 ?>

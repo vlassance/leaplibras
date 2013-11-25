@@ -5,7 +5,7 @@ class UsuarioModel extends PersistModelAbstract
 {
 	private $in_id;
 	private $st_nome;
-	private $in_idade;
+	private $st_data_nascimento;
 	private $st_genero;
 	private $st_email;
 	private $st_fbid;
@@ -19,13 +19,15 @@ class UsuarioModel extends PersistModelAbstract
 	
 	private function setParams($obj)
 	{	
-		$this->setId($obj->con_in_id);
-		$this->setNome($obj->con_st_nome);
-		$this->setIdade($obj->con_in_idade);
-		$this->setGenero($obj->con_st_genero);
-		$this->setEmail($obj->con_st_email);
-		$this->setFbid($obj->con_st_fbid);
-		$this->setIdNivelAcesso($obj->con_in_id_nivel_acesso);
+		if ($obj) {
+			$this->setId($obj->con_in_id);
+			$this->setNome($obj->con_st_nome);
+			$this->setDataNascimento($obj->con_st_data_nascimento);
+			$this->setGenero($obj->con_st_genero);
+			$this->setEmail($obj->con_st_email);
+			$this->setFbid($obj->con_st_fbid);
+			$this->setIdNivelAcesso($obj->con_in_id_nivel_acesso);
+		}
 	}
 	
 	/**
@@ -54,15 +56,20 @@ class UsuarioModel extends PersistModelAbstract
 		return $this->st_nome;
 	}
 	
-	public function setIdade( $in_idade )
+	public function setDataNascimento( $st_data_nascimento )
 	{
-		$this->in_idade = $in_idade;
+		$this->st_data_nascimento = '';
+		$tz  = new DateTimeZone('America/Sao_Paulo');
+		if ($st_data_nascimento) {
+			$dn  = new DateTime($st_data_nascimento, $tz);
+			$this->st_data_nascimento = $dn->format('Y-m-d');
+		}
 		return $this;
 	}
 	
-	public function getIdade()
+	public function getDataNascimento()
 	{
-		return $this->in_idade;
+		return $this->st_data_nascimento;
 	}
 	
 	public function setGenero( $st_genero )
@@ -154,8 +161,16 @@ class UsuarioModel extends PersistModelAbstract
 	*/
 	public function loadById( $in_id )
 	{
-		$v_usuarios = array();
 		$st_query = "SELECT * FROM tbl_usuario WHERE con_in_id = $in_id;";
+		$o_data = $this->o_db->query($st_query);
+		$o_ret = $o_data->fetchObject();
+		$this->setParams($o_ret);		
+		return $this;
+	}
+	
+	public function loadByFbid( $st_fbid )
+	{
+		$st_query = "SELECT * FROM tbl_usuario WHERE con_st_fbid = '$st_fbid';";
 		$o_data = $this->o_db->query($st_query);
 		$o_ret = $o_data->fetchObject();
 		$this->setParams($o_ret);		
@@ -176,7 +191,7 @@ class UsuarioModel extends PersistModelAbstract
 			$st_query = "INSERT INTO tbl_usuario
 						(
 							con_st_nome,
-							con_in_idade,
+							con_st_data_nascimento,
 							con_st_genero,
 							con_st_email,
 							con_st_fbid,
@@ -185,7 +200,7 @@ class UsuarioModel extends PersistModelAbstract
 						VALUES
 						(
 							'$this->st_nome',
-							$this->in_idade,
+							'$this->st_data_nascimento',
 							'$this->st_genero',
 							'$this->st_email',
 							'$this->st_fbid',
@@ -196,7 +211,7 @@ class UsuarioModel extends PersistModelAbstract
 							tbl_usuario
 						SET
 							con_st_nome = '$this->st_nome',
-							con_in_idade = $this->in_idade,
+							con_st_data_nascimento = '$this->st_data_nascimento',
 							con_st_genero = '$this->st_genero',
 							con_st_email = '$this->st_email',
 							con_st_fbid = '$this->st_fbid',
@@ -209,26 +224,24 @@ class UsuarioModel extends PersistModelAbstract
 			if($this->o_db->exec($st_query) > 0)
 				if(is_null($this->in_id))
 				{
-					
 					/*
 					* verificando se o driver usado é sqlite e pegando o ultimo id inserido
 					* por algum motivo, a função nativa do PDO::lastInsertId() não funciona com sqlite
 					*/
-					if($this->o_db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite')
-					{
+					if($this->o_db->getAttribute(PDO::ATTR_DRIVER_NAME) === 'sqlite') {
 						$o_ret = $this->o_db->query('SELECT last_insert_rowid() AS com_in_id')->fetchObject();
-						return $o_ret->com_in_id;
-					}
-					else
-						return $this->o_db->lastInsertId();
+						$id = $o_ret->com_in_id;
+					} else
+						$id = $this->o_db->lastInsertId();
+					$this->setId($id);
+					return $id;
 					
 				}
 				else
 					return $this->in_id;
 		}
 		catch (PDOException $e)
-		{
-		}
+		{ }
 		return false;				
 	}
 
@@ -269,7 +282,7 @@ class UsuarioModel extends PersistModelAbstract
 					(
 						con_in_id INTEGER NOT NULL $st_auto_increment,
 						con_st_nome CHAR(200),
-						con_in_idade INTEGER,
+						con_st_data_nascimento CHAR(10),
 						con_st_genero CHAR(200),
 						con_st_email CHAR(200),
 						con_st_fbid CHAR(200),

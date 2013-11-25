@@ -30,11 +30,18 @@ $v_nivel_usuarios = $v_params['v_nivel_usuarios'];
 				?>
 				<tr>
 					<td>
-						<?php echo $o_nivel_usuario->getId()?>
+						<?php echo $o_nivel_usuario->getId() ?>
 					</td>
-					<td title="<?php echo $o_nivel_usuario->getUsuario()->getEmail() ?>">
-						<?php echo $o_nivel_usuario->getUsuario()->getNome() ?> (<?php echo $o_nivel_usuario->getUsuario()->getNivelAcesso()->getNome() ?>)
-					</td>
+					<?php if ($o_nivel_usuario->getUsuario()->getId()) { ?>
+						<td title="<?php echo $o_nivel_usuario->getUsuario()->getEmail() ?>">
+							<?php echo $o_nivel_usuario->getUsuario()->getNome() . " (" .
+										$o_nivel_usuario->getUsuario()->getNivelAcesso()->getNome() . ")"; ?>
+						</td>
+					<?php } else { ?>
+						<td>
+							<?php echo "ID " . $o_nivel_usuario->getIdUsuario() . " (deletar)"; ?>
+						</td>
+					<?php } ?>
 					<td title="Level: <?php echo $o_nivel_usuario->getNivel()->getLevel() ?>">
 						<?php echo $o_nivel_usuario->getNivel()->getNome() ?>
 					</td>

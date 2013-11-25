@@ -17,10 +17,12 @@ class NivelUsuarioModel extends PersistModelAbstract
 	
 	private function setParams($obj)
 	{
-		$this->setId($obj->con_in_id);
-		$this->setIdUsuario($obj->con_in_id_usuario);
-		$this->setIdNivel($obj->con_in_id_nivel);
-		$this->setMaxScore($obj->con_in_max_score);
+		if ($obj) {
+			$this->setId($obj->con_in_id);
+			$this->setIdUsuario($obj->con_in_id_usuario);
+			$this->setIdNivel($obj->con_in_id_nivel);
+			$this->setMaxScore($obj->con_in_max_score);
+		}
 	}
 	
 	/**

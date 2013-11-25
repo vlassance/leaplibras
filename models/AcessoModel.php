@@ -129,6 +129,16 @@ class AcessoModel extends PersistModelAbstract
 		return $this;
 	}
 	
+	public function loadUserAccess()
+	{
+		$v_acessos = array();
+		$st_query = "SELECT * FROM tbl_acesso WHERE con_in_admin_acessos = 0 and con_in_admin_gestos = 0;";
+		$o_data = $this->o_db->query($st_query);
+		$o_ret = $o_data->fetchObject();
+		$this->setParams($o_ret);		
+		return $this;
+	}
+	
 	/**
 	* Salva dados contidos na instancia da classe
 	* na tabela de acesso. Se o ID for passado,

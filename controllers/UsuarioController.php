@@ -49,7 +49,7 @@ class UsuarioController
 		if(count($_POST) > 0)
 		{
 			$o_usuario->setNome(DataFilter::cleanString($_POST['st_nome']));
-			$o_usuario->setIdade(DataFilter::cleanString($_POST['in_idade']));
+			$o_usuario->setDataNascimento(DataFilter::cleanString($_POST['st_data_nascimento']));
 			$o_usuario->setGenero(DataFilter::cleanString($_POST['st_genero']));
 			$o_usuario->setEmail(DataFilter::cleanString($_POST['st_email']));
 			$o_usuario->setFbid(DataFilter::cleanString($_POST['st_fbid']));
