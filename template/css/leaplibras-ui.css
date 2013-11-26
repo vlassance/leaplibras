@@ -1,5 +1,10 @@
 body 				{ font-family: Calibri; margin: 0px; -ms-touch-action: none; overflow-x: hidden; overflow-y: auto; color: #FFF; }
 
+a.disabled_link {
+       pointer-events: none;
+       cursor: default;
+}
+
 #main 				{ background: #88CFEB; z-index: 1; }
 
 .button				{ text-align: center; font-size: 14px; outline: 0px; font-weight: bold; text-transform:uppercase; height: 50px; background: #C5E8F5; border: 0px; color: #FFF; cursor: pointer; }

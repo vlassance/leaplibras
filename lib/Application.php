@@ -9,6 +9,7 @@ session_start();
 
 require_once 'models/UsuarioModel.php';
 require_once 'models/NivelUsuarioModel.php';
+require_once 'models/NivelModel.php';
 require_once("facebook.php");
 
 

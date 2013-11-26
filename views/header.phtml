@@ -74,7 +74,7 @@
           <a class="brand" href='?controle=Home&acao=listarHome'>Leap-LIBRAS</a>
           <div class="nav-collapse collapse">
             <ul class="nav">
-				<!-- ><?php if(isset($_SESSION['nome_usuario'])) { ?>
+				<!-- <?php if(isset($_SESSION['nome_usuario'])) { ?>
 					<li class="active">
 						<span class="brand"><?php echo "Olá, " . $_SESSION['nome_usuario']; ?></span>
 					</li>
@@ -103,11 +103,28 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Jogar <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                   <li class="nav-header">níveis do jogo</li>
-                  <li <?php if($_SESSION['level_usuario'] < 1) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=1'>Nível 1 </a></li>
-                  <li class="divider"></li>
-                  <li <?php if($_SESSION['level_usuario'] < 2) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=2' >Nível 2</a></li>
-                  <li class="divider"></li>
-                  <li <?php if($_SESSION['level_usuario'] < 3) print "class='disabled'"; ?> ><a href='?controle=Jogo&acao=listarJogo&level=3' >Nível 3</a></li>
+				  <?php
+			  		$o_nivel = new NivelModel();
+			  		$v_niveis = $o_nivel->_list();
+				  	for($i = 0; $i < count($v_niveis); $i++) {
+						$o_nivel = $v_niveis[$i];
+						$classe_li = "";
+						$classe_a = "";
+						$level = (int)$o_nivel->getLevel();
+						$titulo_nivel = $o_nivel->getNome();
+						
+						if((int)$_SESSION['level_usuario'] < $level) {
+							$classe_li = "disabled";
+							$classe_a = "disabled_link";
+						}
+						
+						if ($i > 0)
+							echo "<li class='divider'></li>";
+						echo "<li class='$classe_li'><a href='?controle=Jogo&acao=listarJogo&level=$level' class='$classe_a'>
+							      $titulo_nivel
+							  </a></li>";
+					} 
+				  ?>
                 </ul>
               </li>
 			  <?php
