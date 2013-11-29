@@ -39,6 +39,31 @@
 	<script src="./trainerv03/sub-classes/cross-correlation.js"></script>
 	
 	<script src="./template/js/leaplibras-ui.js"></script>
+	<script>
+	$(function() {
+		
+		if($('#gestoJSON').val()!="")
+		{					
+			
+			var trainer = new LeapTrainer.Controller();		
+			
+			trainer.fromJSON($('#gestoJSON').val());
+			
+			trainer.on('gesture-recognized', function (hit, gestureName) {	    
+			
+			
+				$('#mensagem_usuario').text('Gesto realizado com sucesso!!!');
+				
+				
+				$('#proximo_gesto').toggleClass( 'disabled', false );
+				
+			});
+		
+		}
+		
+	});
+	
+	</script>
 
 
   
