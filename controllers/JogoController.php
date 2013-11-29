@@ -1,6 +1,6 @@
 <?php
 if ( ! session_id() ) @ session_start();
-require_once 'models/NivelModel.php';
+require_once 'models/QuestaoModel.php';
 require_once 'models/NivelUsuarioModel.php';
 /**
 * @package Exemplo simples com MVC
@@ -72,10 +72,15 @@ class JogoController
 	
 	private function calcListaQuestoes($nivel) {
 		$this->lista_questoes = array();
-		if (isset($_SESSION['lista_questoes']))
+		if (isset($_SESSION['lista_questoes']) && $this->questao > 1)
 			$this->lista_questoes = $_SESSION['lista_questoes'];
 		else {
 			//criar lista de questoes
+			$questao = new QuestaoModel();
+			$questoes = $questao->_listByNivel($nivel->getId());
+			foreach ($questoes as $q) {
+				$this->lista_questoes[] = $q->getId();
+			}
 		}
 		
 		$_SESSION['lista_questoes'] = $this->lista_questoes;
@@ -104,13 +109,15 @@ class JogoController
 		else
 			$max_pontuacao = 100*$nivel_usuario->getMaxScore()/$total_questoes;
 		
-		//$id_midia_gesto = $this->lista_questoes[];
-		$nome_gesto = "Teste nome";
-		/*$url_midia = "letrab.jpg";
-		$tipo_midia = "I";*/
-		$url_midia = "//www.youtube.com/embed/3iUZju5h5gw";
-		$tipo_midia = "V";
-		$json_gesto = "teste_gest";
+		$id_questao = $this->lista_questoes[$this->questao-1];
+		$questao_model = new QuestaoModel();
+		$questao_model = $questao_model->loadById($id_questao);
+		$midia_gesto = $questao_model->getMidiaGesto();
+			
+		$nome_gesto = $questao_model->getTitulo();
+		$url_midia = $midia_gesto->getFilepath();
+		$tipo_midia = $midia_gesto->getTipoMidia();
+		$json_gesto = $midia_gesto->getJson();
 		
 		$this->o_view->setParams(array(
 			'nome_gesto' => $nome_gesto,

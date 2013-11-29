@@ -130,6 +130,29 @@ class QuestaoModel extends PersistModelAbstract
 		return $v_questoes;
 	}
 	
+	public function _listByNivel( $in_id_nivel = null )
+	{
+		if(!is_null($in_id_nivel))
+			$st_query = "SELECT * FROM tbl_questao WHERE con_in_id_nivel = $in_id_nivel;";
+		else
+			$st_query = 'SELECT * FROM tbl_questao;';	
+		
+		$v_questoes = array();
+		try
+		{
+			$o_data = $this->o_db->query($st_query);
+			while($o_ret = $o_data->fetchObject())
+			{
+				$o_questao = new QuestaoModel();
+				$o_questao->setParams($o_ret);
+				array_push($v_questoes, $o_questao);
+			}
+		}
+		catch(PDOException $e)
+		{}				
+		return $v_questoes;
+	}
+	
 	/**
 	* Retorna os dados de um questao referente
 	* a um determinado Id
