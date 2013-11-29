@@ -36,17 +36,7 @@ class JogoController
 	{
 		$this->id_usuario = $_SESSION['id_usuario'];
 		
-		if (isset($_GET['level']) && isset($_GET['questao'])) {
-			$nivel_usuario = new NivelUsuarioModel();
-			$nivel_usuario = $nivel_usuario->loadByUsuarioNivel($this->id_usuario, $_GET['level']);
-			$nivel = new NivelModel();
-			$nivel = $nivel->loadByLevel($_GET['level']);
-			
-			if ($_GET['questao'] > $nivel_usuario->getMaxScore()) {
-				$nivel_usuario->setMaxScore($_GET['questao']);
-				$nivel_usuario->save();
-			}
-		}
+		$this->setMaxScoreDB();
 		
 		$this->calcProxQuestao();
 		
@@ -63,6 +53,25 @@ class JogoController
 		
 		//Imprimindo código HTML
 		$this->o_view->showPage();
+	}
+	
+	private function setMaxScoreDB() {
+		if (isset($_GET['level']) && isset($_GET['questao'])) {
+			$nivel_usuario = new NivelUsuarioModel();
+			$nivel_usuario = $nivel_usuario->loadByUsuarioNivel($this->id_usuario, $_GET['level']);
+			$nivel = new NivelModel();
+			$nivel = $nivel->loadByLevel($_GET['level']);
+			
+			if (!$nivel_usuario->getId()) {
+				$nivel_usuario->setIdUsuario($this->id_usuario);
+				$nivel_usuario->setIdNivel($_GET['level']);
+			}
+			
+			if ($_GET['questao'] > $nivel_usuario->getMaxScore()) {
+				$nivel_usuario->setMaxScore($_GET['questao']);
+				$nivel_usuario->save();
+			}
+		}
 	}
 	
 	private function calcProxQuestao() {
