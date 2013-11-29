@@ -8,6 +8,12 @@ $v_midia_gestos = $v_params['v_midia_gestos'];
     <h2>Questão do Jogo</h2>
     <hr>
 	<form class="form-horizontal" method='post'>
+  	  <div class="control-group">
+  	    <label class="control-label" for="in_ordem">Ordem</label>
+  	    <div class="controls">
+  	      <input type="text" id="in_ordem" name='in_ordem' value='<?php echo $o_questao->getOrdem()?>'>
+  	    </div>
+  	  </div>
 	  <div class="control-group">
 	    <label class="control-label" for="st_titulo">Título</label>
 	    <div class="controls">

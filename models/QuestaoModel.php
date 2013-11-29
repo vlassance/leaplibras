@@ -8,6 +8,7 @@ class QuestaoModel extends PersistModelAbstract
 	private $st_titulo;
 	private $in_id_nivel;
 	private $in_id_midia_gesto;
+	private $in_ordem;
 	
 	function __construct()
 	{
@@ -21,6 +22,7 @@ class QuestaoModel extends PersistModelAbstract
 		$this->setTitulo($obj->con_st_titulo);
 		$this->setIdNivel($obj->con_in_id_nivel);
 		$this->setIdMidiaGesto($obj->con_in_id_midia_gesto);
+		$this->setOrdem($obj->con_in_ordem);
 	}
 	
 	/**
@@ -89,6 +91,17 @@ class QuestaoModel extends PersistModelAbstract
 		return  $nivel->loadById($this->in_id_midia_gesto);
 	}
 	
+	public function setOrdem( $in_ordem )
+	{
+		$this->in_ordem = $in_ordem;
+		return $this;
+	}
+	
+	public function getOrdem()
+	{
+		return $this->in_ordem;
+	}
+	
 	/**
 	* Retorna um array contendo os questoes
 	* @param string $st_titulo
@@ -148,13 +161,15 @@ class QuestaoModel extends PersistModelAbstract
 						(
 							con_st_titulo,
 							con_in_id_nivel,
-							con_in_id_midia_gesto
+							con_in_id_midia_gesto,
+							con_in_ordem
 						)
 						VALUES
 						(
 							'$this->st_titulo',
 							$this->in_id_nivel,
-							$this->in_id_midia_gesto
+							$this->in_id_midia_gesto,
+							$this->in_ordem
 						);";
 		} else {
 			$st_query = "UPDATE
@@ -162,7 +177,8 @@ class QuestaoModel extends PersistModelAbstract
 						SET
 							con_st_titulo = '$this->st_titulo',
 							con_in_id_nivel = $this->in_id_nivel,
-							con_in_id_midia_gesto = $this->in_id_midia_gesto
+							con_in_id_midia_gesto = $this->in_id_midia_gesto,
+							con_in_ordem = $this->in_ordem
 						WHERE
 							con_in_id = $this->in_id";
 		}
@@ -233,6 +249,7 @@ class QuestaoModel extends PersistModelAbstract
 						con_st_titulo CHAR(200),
 						con_in_id_nivel INTEGER,
 						con_in_id_midia_gesto INTEGER,
+						con_in_ordem INTEGER,
 						PRIMARY KEY(con_in_id)
 					)";
 

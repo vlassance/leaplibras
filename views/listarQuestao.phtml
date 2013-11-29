@@ -12,6 +12,9 @@ $v_questoes = $v_params['v_questoes'];
 					ID
 				</th>
 				<th>
+					Ordem
+				</th>
+				<th>
 					Título
 				</th>
 				<th>
@@ -31,6 +34,9 @@ $v_questoes = $v_params['v_questoes'];
 				<tr>
 					<td>
 						<?php echo $o_questao->getId()?>
+					</td>
+					<td>
+						<?php echo $o_questao->getOrdem()?>
 					</td>
 					<td>
 						<?php echo $o_questao->getTitulo()?>

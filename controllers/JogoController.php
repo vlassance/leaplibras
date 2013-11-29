@@ -14,6 +14,10 @@ if ( ! session_id() ) @ session_start();
 
 class JogoController
 {
+	private $questao;
+	
+	private $level;
+	
 	/**
 	* Ação que deverá ser executada quando 
 	* nenhuma outra for especificada, do mesmo jeito que o
@@ -22,7 +26,22 @@ class JogoController
 	*/
 	public function listarJogoAction()
 	{
+		if (isset($_GET['level']))
+			$level_atual = $_GET['level'];
+		else
+			$level_atual = 1;
+		if (isset($_GET['questao']))
+			$questao_atual = $_GET['questao'];
+		else
+			$questao_atual = 1;
+		//calcProxQuestao($level_atual, $questao_atual);
+		
+		
 		$_SESSION['level'] = $_GET['level'];
+		if (isset($_GET['questao']))
+			$_SESSION['questao'] = $_GET['questao'];
+		else
+			$_SESSION['questao'] = 1;
 		//definindo qual o arquivo HTML que será usado para
 		//mostrar a lista de contatos
 		$o_view = new View('views/listarJogo.phtml');

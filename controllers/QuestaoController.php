@@ -55,6 +55,7 @@ class QuestaoController
 			$o_questao->setTitulo(DataFilter::cleanString($_POST['st_titulo']));
 			$o_questao->setIdNivel(DataFilter::cleanString($_POST['in_id_nivel']));
 			$o_questao->setIdMidiaGesto(DataFilter::cleanString($_POST['in_id_midia_gesto']));
+			$o_questao->setOrdem(DataFilter::cleanString($_POST['in_ordem']));
 			
 			//salvando dados e redirecionando para a lista de Questoes
 			if($o_questao->save() > 0)
