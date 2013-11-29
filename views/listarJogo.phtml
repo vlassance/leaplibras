@@ -1,18 +1,27 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 <?php
-  $tipoMidia = 'I';
+  $v_params = $this->getParams();
+
+  $nome_gesto = $v_params['nome_gesto'];
+  $titulo_level = $v_params['titulo_level'];
+  $mostra_ajuda = $v_params['mostra_ajuda'];
+  $url_midia = $v_params['url_midia'];
+  $tipo_midia = $v_params['tipo_midia'];
+  $pontuacao = $v_params['pontuacao'];
+  $max_pontuacao = $v_params['max_pontuacao'];
+  $json_gesto = $v_params['json_gesto'];
+
   $imagemUrl = "upload/";
-  $urlMidia = "//www.youtube.com/embed/0jl-RIwoYh8";
 ?>
 	  <div class="hero-unit">
-        <h1>Nível <?php echo $_SESSION['level']; ?></h1>
-        <h2>Questão: Faça o gesto <?php echo 'X'?></h2>
+        <h1><?php echo $titulo_level;?></h1>
+        <h2>Questão: Faça o gesto <?php echo $nome_gesto;?></h2>
         
         <hr>
 
         
           <div class="row-fluid">
-            <?php if($_SESSION['level'] == 1){?>
+            <?php if($mostra_ajuda == true){?>
             <div class="span4 text-left">
               
               <!-- Button to trigger modal -->
@@ -21,16 +30,16 @@
               <div id="modalVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h3 id="modalVideoLabel">Aprenda o gesto <?php echo "$imagemUrl com "; if($tipoMidia =='V') echo "o vídeo."; else echo "a imagem." ?> </h3>
+                  <h3 id="modalVideoLabel">Aprenda o gesto <?php echo "$nome_gesto com "; if($tipo_midia =='V') echo "o vídeo."; else echo "a imagem." ?> </h3>
                 </div>
                 <div class="modal-body">
                   <?php 
-                    if($tipoMidia =='V') 
-                      echo "<iframe width='520' height='315' src='$urlMidia' frameborder='0' allowfullscreen></iframe>";
+                    if($tipo_midia =='V') 
+                      echo "<iframe width='520' height='315' src='$url_midia' frameborder='0' allowfullscreen></iframe>";
                     else{ ?>
                       <div class="row-fluid">
                         <div class="span6 offset3">
-                          <?php echo "<img src='$imagemUrl$urlMidia' class='img-polaroid'>"; ?>
+                          <?php echo "<img src='$imagemUrl$url_midia' class='img-polaroid'>"; ?>
                         </div>
                       </div>   
                   <?php } ?>
@@ -48,7 +57,7 @@
 
 
             <div class="span4 text-center">
-              <p class="btn-info btn-large">Pontuação: <?php echo '10%' ?></p>
+              <p class="btn-info btn-large">Pontuação: <?php echo $pontuacao; ?> (MAX SCORE: <?php echo $max_pontuacao; ?>)</p>
             </div>
 
             <div class="span4 text-right">
