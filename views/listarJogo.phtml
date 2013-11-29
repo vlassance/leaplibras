@@ -1,10 +1,12 @@
 <!-- Main hero unit for a primary marketing message or call to action -->
 <?php
-  
+  $tipoMidia = 'I';
+  $imagemUrl = "upload/";
+  $urlMidia = "//www.youtube.com/embed/0jl-RIwoYh8";
 ?>
 	  <div class="hero-unit">
         <h1>Nível <?php echo $_SESSION['level']; ?></h1>
-        <h2>Questão: Faço o gesto <?php echo 'X'?></h2>
+        <h2>Questão: Faça o gesto <?php echo 'X'?></h2>
         
         <hr>
 
@@ -19,10 +21,19 @@
               <div id="modalVideo" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modalVideoLabel" aria-hidden="true">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h3 id="modalVideoLabel">Aprenda o gesto <?php echo 'X'?> com o vídeo</h3>
+                  <h3 id="modalVideoLabel">Aprenda o gesto <?php echo "$imagemUrl com "; if($tipoMidia =='V') echo "o vídeo."; else echo "a imagem." ?> </h3>
                 </div>
                 <div class="modal-body">
-                  <iframe width="520" height="315" src="//www.youtube.com/embed/3iUZju5h5gw" frameborder="0" allowfullscreen></iframe>
+                  <?php 
+                    if($tipoMidia =='V') 
+                      echo "<iframe width='520' height='315' src='$urlMidia' frameborder='0' allowfullscreen></iframe>";
+                    else{ ?>
+                      <div class="row-fluid">
+                        <div class="span6 offset3">
+                          <?php echo "<img src='$imagemUrl$urlMidia' class='img-polaroid'>"; ?>
+                        </div>
+                      </div>   
+                  <?php } ?>
                 </div>
                 <div class="modal-footer">
                   <button class="btn" data-dismiss="modal" aria-hidden="true">Fechar</button>
