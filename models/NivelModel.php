@@ -19,16 +19,18 @@ class NivelModel extends PersistModelAbstract
 	
 	private function setParams($obj)
 	{
-		$bo_aleatorio = ($obj->con_in_aleatorio == 1)? true : false;
+		if ($obj) {
+			$bo_aleatorio = ($obj->con_in_aleatorio == 1)? true : false;
 		
-		$this->setId($obj->con_in_id);
-		$this->setNome($obj->con_st_nome);
-		$this->setIdAnterior($obj->con_in_id_anterior);
-		$this->setIdProximo($obj->con_in_id_proximo);
-		$this->setLevel($obj->con_st_level);
-		$this->setAleatorio($bo_aleatorio);
-		$this->setTotalQuestoes($obj->con_in_total_questoes);
-		$this->setPctAprovacao($obj->con_in_pct_aprovacao);
+			$this->setId($obj->con_in_id);
+			$this->setNome($obj->con_st_nome);
+			$this->setIdAnterior($obj->con_in_id_anterior);
+			$this->setIdProximo($obj->con_in_id_proximo);
+			$this->setLevel($obj->con_st_level);
+			$this->setAleatorio($bo_aleatorio);
+			$this->setTotalQuestoes($obj->con_in_total_questoes);
+			$this->setPctAprovacao($obj->con_in_pct_aprovacao);
+		}
 	}
 	
 	/**
