@@ -10,6 +10,8 @@
   $pontuacao = $v_params['pontuacao'];
   $max_pontuacao = $v_params['max_pontuacao'];
   $json_gesto = $v_params['json_gesto'];
+  $level = $v_params['level'];
+  $questao = $v_params['questao'];
 
   $imagemUrl = "upload/";
 ?>
@@ -57,11 +59,11 @@
 
 
             <div class="span4 text-center">
-              <p class="btn-info btn-large">Pontuação: <?php echo $pontuacao; ?>% (MAX SCORE: <?php echo $max_pontuacao; ?>%)</p>
+              <p class="btn-info">Pontuação: <?php echo $pontuacao; ?>% <br />MAX SCORE: <?php echo $max_pontuacao; ?>%</p>
             </div>
 
             <div class="span4 text-right">
-              <a href="#" class="btn btn-primary btn-large">Próximo gesto <i class="icon-forward icon-white"></i></a>
+              <?php echo "<a href='?controle=Jogo&acao=listarJogo&level=$level&questao=$questao' class='btn btn-primary btn-large' id='proximo_gesto'>Próximo gesto <i class='icon-forward icon-white'></i></a>"; ?>
             </div>
 
           </div>
@@ -70,14 +72,8 @@
 		  <div id="main">
 		  	<div id="render-area"></div>
 		  </div>
-		  <input type="hidden" name="gestoNome" value='<?php echo $nome_gesto; ?>' />
-		  <input type="hidden" name="gestoJSON" value='<?php echo $json_gesto; ?>' />
+		  <input type="hidden" id="gestoNome" value='<?php echo $nome_gesto; ?>' />
+		  <input type="hidden" id="gestoJSON" value='<?php echo $json_gesto; ?>' />
       </div>
-	  
-	  <script>
-$(function() {
-    alert('funcionou');
-})
-	  </script>
 
         

@@ -22,6 +22,8 @@ class JogoController
 	
 	private $level;
 	
+	private $lista_questoes;
+	
 	/**
 	* Ação que deverá ser executada quando 
 	* nenhuma outra for especificada, do mesmo jeito que o
@@ -38,6 +40,7 @@ class JogoController
 		if (!$nivel->getId()) {
 			$this->o_view = new View('views/parabens.phtml');
 		} else {
+			$this->calcListaQuestoes($nivel);
 			$this->o_view = new View('views/listarJogo.phtml');
 			$this->setParametros();
 		}
@@ -46,15 +49,49 @@ class JogoController
 		$this->o_view->showPage();
 	}
 	
+	private function calcProxQuestao() {
+		if (isset($_GET['level']))
+			$this->level = (int)$_GET['level'];
+		else
+			$this->level = 1;
+		if (isset($_GET['questao']))
+			$this->questao = (int)$_GET['questao'];
+		else
+			$this->questao = 0;
+		
+		$nivel = new NivelModel();
+		$nivel = $nivel->loadByLevel($this->level);
+		$total_questoes = $nivel->getTotalQuestoes();
+		
+		$this->questao++;
+		if ($this->questao > $total_questoes) {
+			$this->questao = 1;
+			$this->level++;
+		}
+	}
+	
+	private function calcListaQuestoes($nivel) {
+		$this->lista_questoes = array();
+		if (isset($_SESSION['lista_questoes']))
+			$this->lista_questoes = $_SESSION['lista_questoes'];
+		else {
+			//criar lista de questoes
+		}
+		
+		$_SESSION['lista_questoes'] = $this->lista_questoes;
+	}
+	
 	private function setParametros() {
 		$nivel = new NivelModel();
 		$nivel = $nivel->loadByLevel($this->level);
 		$total_questoes = $nivel->getTotalQuestoes();
 		$titulo_level = $nivel->getNome();
+		$level = $this->level;
+		$questao = $this->questao;
 		
-		$mostra_ajuda = false;
-		if ((int)$this->level == 1)
-			$mostra_ajuda = true;
+		$mostra_ajuda = true;
+		if ((int)$this->level >= 3)
+			$mostra_ajuda = false;
 		
 		$id_usuario = $_SESSION['id_usuario'];
 		
@@ -67,6 +104,7 @@ class JogoController
 		else
 			$max_pontuacao = 100*$nivel_usuario->getMaxScore()/$total_questoes;
 		
+		//$id_midia_gesto = $this->lista_questoes[];
 		$nome_gesto = "Teste nome";
 		/*$url_midia = "letrab.jpg";
 		$tipo_midia = "I";*/
@@ -83,28 +121,9 @@ class JogoController
 			'pontuacao' => $pontuacao,
 			'max_pontuacao' => $max_pontuacao,
 			'json_gesto' => $json_gesto,
+			'level' => $level,
+			'questao' => $questao,
 		));
-	}
-	
-	private function calcProxQuestao() {
-		if (isset($_GET['level']))
-			$this->level = (int)$_GET['level'];
-		else
-			$this->level = 1;
-		if (isset($_GET['questao']))
-			$this->questao = (int)$_GET['questao'];
-		else
-			$this->questao = 1;
-		
-		$nivel = new NivelModel();
-		$nivel = $nivel->loadByLevel($this->level);
-		$total_questoes = $nivel->getTotalQuestoes();
-		
-		$this->questao++;
-		if ($this->questao > $total_questoes) {
-			$this->questao = 1;
-			$this->level++;
-		}
 	}
 
 	
