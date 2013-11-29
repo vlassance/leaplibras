@@ -16,6 +16,8 @@ require_once 'models/NivelUsuarioModel.php';
 
 class JogoController
 {	
+	private $id_usuario;
+	
 	private $o_view;
 	
 	private $questao;
@@ -32,6 +34,20 @@ class JogoController
 	*/
 	public function listarJogoAction()
 	{
+		$this->id_usuario = $_SESSION['id_usuario'];
+		
+		if (isset($_GET['level']) && isset($_GET['questao'])) {
+			$nivel_usuario = new NivelUsuarioModel();
+			$nivel_usuario = $nivel_usuario->loadByUsuarioNivel($this->id_usuario, $_GET['level']);
+			$nivel = new NivelModel();
+			$nivel = $nivel->loadByLevel($_GET['level']);
+			
+			if ($_GET['questao'] > $nivel_usuario->getMaxScore()) {
+				$nivel_usuario->setMaxScore($_GET['questao']);
+				$nivel_usuario->save();
+			}
+		}
+		
 		$this->calcProxQuestao();
 		
 		$nivel = new NivelModel();
@@ -98,12 +114,10 @@ class JogoController
 		if ((int)$this->level >= 3)
 			$mostra_ajuda = false;
 		
-		$id_usuario = $_SESSION['id_usuario'];
-		
 		$pontuacao = 100*($this->questao-1)/$total_questoes;
 		
 		$nivel_usuario = new NivelUsuarioModel();
-		$nivel_usuario = $nivel_usuario->loadByUsuarioNivel($id_usuario, $this->level);
+		$nivel_usuario = $nivel_usuario->loadByUsuarioNivel($this->id_usuario, $this->level);
 		if (!$nivel_usuario->getId())
 			$max_pontuacao = 0;
 		else
