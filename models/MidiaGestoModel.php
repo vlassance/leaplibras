@@ -55,9 +55,16 @@ class MidiaGestoModel extends PersistModelAbstract
 		return $this;
 	}
 	
-	public function getFilepath()
+	public function getFilepath( $length_text = -1 )
 	{
-		return $this->st_filepath;
+		if ($length_text <= 0)
+			return $this->st_filepath;
+		
+		$filepath_reduzido = substr($this->st_filepath, 0, $length_text);
+		if (strlen($this->st_filepath) > strlen($filepath_reduzido))
+			$filepath_reduzido .= "...";
+
+		return $filepath_reduzido;
 	}
 	
 	public function setJson( $st_json )

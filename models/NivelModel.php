@@ -187,6 +187,16 @@ class NivelModel extends PersistModelAbstract
 		return $this;
 	}
 	
+	public function loadByLevel( $in_level )
+	{
+		$v_niveis = array();
+		$st_query = "SELECT * FROM tbl_nivel WHERE con_st_level = $in_level;";
+		$o_data = $this->o_db->query($st_query);
+		$o_ret = $o_data->fetchObject();
+		$this->setParams($o_ret);		
+		return $this;
+	}
+	
 	/**
 	* Salva dados contidos na instancia da classe
 	* na tabela de nivel. Se o ID for passado,
