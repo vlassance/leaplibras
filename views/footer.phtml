@@ -42,7 +42,7 @@
 	<script>
 	$(function() {
 		
-		
+		var capturaGesto = true;
 		
 		if($('#gestoJSON').val()!="")
 		{					
@@ -53,19 +53,30 @@
 			
 			trainer.on('gesture-recognized', function (hit, gestureName) {	    
 			
+				if(capturaGesto)
+				{
+				
 			
-				$('#mensagem_usuario').text('Gesto realizado com sucesso!!!');
-				$('#mensagem_usuario').toggleClass( 'btn-info', false );
-				$('#mensagem_usuario').toggleClass( 'btn-success', true );
+					$('#mensagem_usuario').text('Gesto realizado com sucesso!!!');
+					$('#mensagem_usuario').toggleClass( 'btn-info', false );
+					$('#mensagem_usuario').toggleClass( 'btn-success', true );				
 				
+					$('#proximo_gesto').toggleClass( 'disabled', false );
 				
-				
-				
-				$('#proximo_gesto').toggleClass( 'disabled', false );
-				
+				}
+								
 			});
 		
 		}
+		
+		
+		$( "#modalVideo" ).on('shown', function(){
+			capturaGesto = false;
+		});
+		
+		$( "#modalVideo" ).on('hidden', function(){
+			capturaGesto = true;
+		});
 		
 	});
 	
